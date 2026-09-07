@@ -3,12 +3,11 @@ import { createClientFromRequest } from "npm:@base44/sdk@0.8.44";
 export default async function(req: Request): Promise<Response> {
   try {
     const base44 = createClientFromRequest(req);
-    const user = await base44.auth.me();
-    if (!user) return Response.json({ error: "Unauthorized" }, { status: 401 });
-
-    const { profileId, message } = await req.json();
+    const { profileId, message, senderName, senderEmail } = await req.json();
     const cleanMessage = typeof message === "string" ? message.trim() : "";
-    if (typeof profileId !== "string" || !cleanMessage || cleanMessage.length > 5000) {
+    const cleanName = typeof senderName === "string" ? senderName.trim() : "";
+    const cleanEmail = typeof senderEmail === "string" ? senderEmail.trim() : "";
+    if (typeof profileId !== "string" || !cleanName || cleanName.length > 120 || !/^\S+@\S+\.\S+$/.test(cleanEmail) || !cleanMessage || cleanMessage.length > 5000) {
       return Response.json({ error: "Invalid message" }, { status: 400 });
     }
 
@@ -18,7 +17,7 @@ export default async function(req: Request): Promise<Response> {
     await base44.asServiceRole.integrations.Core.SendEmail({
       to: professional.email,
       subject: `رسالة جديدة من مُلتقى إلى ${professional.full_name}`,
-      body: `مرحبًا ${professional.full_name}،\n\nلديك رسالة جديدة عبر مُلتقى.\n\nالمرسل: ${user.full_name || "مستخدم مُلتقى"}\nالبريد الإلكتروني: ${user.email}\n\nالرسالة:\n${cleanMessage}`
+      body: `مرحبًا ${professional.full_name}،\n\nلديك رسالة جديدة عبر مُلتقى.\n\nالمرسل: ${cleanName}\nالبريد الإلكتروني: ${cleanEmail}\n\nالرسالة:\n${cleanMessage}`
     });
 
     return Response.json({ ok: true });
