@@ -1,4 +1,5 @@
 import { MapPin, Monitor, BriefcaseBusiness, Phone, Mail } from "lucide-react";
+import ContactPractitioner from "@/components/directory/ContactPractitioner";
 
 const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
 const specialtyLabels = { psychotherapy: "العلاج النفسي", clinical_psychology: "علم النفس السريري", nlp: "البرمجة اللغوية العصبية", family_therapy: "العلاج الأسري", couples_therapy: "العلاج الزوجي", child_therapy: "علاج الأطفال واليافعين", other: "مجال آخر" };
@@ -21,6 +22,7 @@ export default function ProfessionalCard({ professional }) {
         {professional.email && <p className="flex items-center gap-2 break-all"><Mail className="h-4 w-4 shrink-0" />{professional.email}</p>}
       </div>
       {professional.bio && <p className="mt-5 line-clamp-4 text-sm leading-6 text-foreground">{professional.bio}</p>}
+      {professional.email && <ContactPractitioner professionalId={professional.id} />}
       <p className="mt-5 border-t pt-4 text-xs text-muted-foreground">رقم الترخيص: {professional.license_number}</p>
     </article>
   );
