@@ -25,6 +25,13 @@
     },
     "bio": {
       "type": "string"
+    },
+    "phone": {
+      "type": "string"
+    },
+    "email": {
+      "type": "string",
+      "format": "email"
     }
   },
   "required": [
