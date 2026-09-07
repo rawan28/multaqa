@@ -75,8 +75,8 @@ export default function Register() {
     return (
       <AuthLayout
         icon={Mail}
-        title="Verify your email"
-        subtitle={`We sent a code to ${email}`}
+        title="تأكيد البريد الإلكتروني"
+        subtitle={`أرسلنا رمز تحقق إلى ${email}`}
       >
         {error && (
           <div className="mb-4 p-3 rounded-lg bg-destructive/10 text-destructive text-sm">
@@ -109,16 +109,16 @@ export default function Register() {
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Verifying...
+              جارٍ التأكيد…
             </>
           ) : (
-            "Verify"
+            "تأكيد الرمز"
           )}
         </Button>
         <p className="text-center text-sm text-muted-foreground mt-4">
-          Didn't receive the code?{" "}
+          لم يصلك الرمز؟{" "}
           <button onClick={handleResend} className="text-primary font-medium hover:underline">
-            Resend
+            إعادة الإرسال
           </button>
         </p>
       </AuthLayout>
@@ -128,16 +128,16 @@ export default function Register() {
   return (
     <AuthLayout
       icon={UserPlus}
-      title="Create your account"
-      subtitle="Sign up to get started"
+      title="أنشئ حسابك"
+      subtitle="سجّل حسابك المهني للبدء"
       footer={
         <>
-          Already have an account?{" "}
+          لديك حساب بالفعل؟{" "}
           <Link
             to={"/login" + (safeReturnTo() !== "/" ? "?returnTo=" + encodeURIComponent(safeReturnTo()) : "")}
             className="text-primary font-medium hover:underline"
           >
-            Log in
+            تسجيل الدخول
           </Link>
         </>
       }
@@ -168,7 +168,7 @@ export default function Register() {
 
       <form onSubmit={handleSubmit} className="space-y-4">
         <div className="space-y-2">
-          <Label htmlFor="email">Email</Label>
+          <Label htmlFor="email">البريد الإلكتروني</Label>
           <div className="relative">
             <Mail className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
@@ -185,7 +185,7 @@ export default function Register() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="password">Password</Label>
+          <Label htmlFor="password">كلمة المرور</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
@@ -201,7 +201,7 @@ export default function Register() {
           </div>
         </div>
         <div className="space-y-2">
-          <Label htmlFor="confirm">Confirm Password</Label>
+          <Label htmlFor="confirm">تأكيد كلمة المرور</Label>
           <div className="relative">
             <Lock className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-muted-foreground" aria-hidden="true" />
             <Input
@@ -220,10 +220,10 @@ export default function Register() {
           {loading ? (
             <>
               <Loader2 className="w-4 h-4 mr-2 animate-spin" />
-              Creating account...
+              جارٍ إنشاء الحساب…
             </>
           ) : (
-            "Create account"
+            "إنشاء الحساب"
           )}
         </Button>
       </form>
