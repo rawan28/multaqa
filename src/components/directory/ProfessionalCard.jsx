@@ -1,23 +1,26 @@
 import { MapPin, Monitor, BriefcaseBusiness, Phone, Mail } from "lucide-react";
 import ContactPractitioner from "@/components/directory/ContactPractitioner";
+import { Image } from "@/components/ui/image";
 
 const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
 const specialtyLabels = { psychotherapy: "العلاج النفسي", clinical_psychology: "علم النفس السريري", nlp: "البرمجة اللغوية العصبية", family_therapy: "العلاج الأسري", couples_therapy: "العلاج الزوجي", child_therapy: "علاج الأطفال واليافعين", other: "مجال آخر" };
+const workDayLabels = { sunday: "الأحد", monday: "الاثنين", tuesday: "الثلاثاء", wednesday: "الأربعاء", thursday: "الخميس", friday: "الجمعة", saturday: "السبت" };
 
 export default function ProfessionalCard({ professional }) {
   return (
     <article className="rounded-lg border bg-card p-6 shadow-sm">
-      <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-secondary font-heading text-lg font-semibold text-secondary-foreground">
-        {professional.full_name?.slice(0, 1).toUpperCase()}
-      </div>
+      {professional.profile_image_url ? <Image src={professional.profile_image_url} alt={`صورة ${professional.full_name}`} className="mb-5 h-16 w-16 overflow-hidden rounded-full" /> : <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-secondary font-heading text-lg font-semibold text-secondary-foreground">{professional.full_name?.slice(0, 1).toUpperCase()}</div>}
       <h2 className="font-heading text-xl font-semibold text-foreground">{professional.full_name}</h2>
       {professional.specialty && <p className="mt-1 text-sm font-medium text-primary">{specialtyLabels[professional.specialty] || professional.specialty}</p>}
+      <span className="mt-3 inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">{professional.accepting_new_patients === false ? "لا يستقبل مرضى جدد" : "يستقبل مرضى جدد"}</span>
       <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />{professional.location}</p>
         {professional.accessibility && <p><span className="font-medium text-foreground">إتاحة المكان: </span>{professional.accessibility}</p>}
         {professional.directions && <p><span className="font-medium text-foreground">الوصول: </span>{professional.directions}</p>}
         <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" />{professional.years_experience} سنوات من الخبرة</p>
         <p className="flex items-center gap-2"><Monitor className="h-4 w-4" />{modeLabels[professional.appointment_mode]}</p>
+        {professional.work_days?.length > 0 && <p><span className="font-medium text-foreground">أيام العمل: </span>{professional.work_days.map((day) => workDayLabels[day]).join("، ")}</p>}
+        {professional.website && <a href={professional.website} target="_blank" rel="noreferrer" className="font-medium text-primary underline">الموقع الإلكتروني</a>}
         {professional.phone && <p className="flex items-center gap-2"><Phone className="h-4 w-4" />{professional.phone}</p>}
         {professional.email && <p className="flex items-center gap-2 break-all"><Mail className="h-4 w-4 shrink-0" />{professional.email}</p>}
       </div>

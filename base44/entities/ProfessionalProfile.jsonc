@@ -26,6 +26,33 @@
     "license_number": {
       "type": "string"
     },
+    "work_days": {
+      "type": "array",
+      "items": {
+        "type": "string",
+        "enum": [
+          "sunday",
+          "monday",
+          "tuesday",
+          "wednesday",
+          "thursday",
+          "friday",
+          "saturday"
+        ]
+      }
+    },
+    "accepting_new_patients": {
+      "type": "boolean",
+      "default": true
+    },
+    "profile_image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "website": {
+      "type": "string",
+      "format": "uri"
+    },
     "accessibility": {
       "type": "string"
     },
