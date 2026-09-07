@@ -1,6 +1,6 @@
 import { MapPin, Monitor, BriefcaseBusiness } from "lucide-react";
 
-const modeLabels = { online: "Online", in_person: "In person", both: "Online & in person" };
+const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
 
 export default function ProfessionalCard({ professional }) {
   return (
@@ -11,11 +11,11 @@ export default function ProfessionalCard({ professional }) {
       <h2 className="font-heading text-xl font-semibold text-foreground">{professional.full_name}</h2>
       <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />{professional.location}</p>
-        <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" />{professional.years_experience} years of experience</p>
+        <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" />{professional.years_experience} سنوات من الخبرة</p>
         <p className="flex items-center gap-2"><Monitor className="h-4 w-4" />{modeLabels[professional.appointment_mode]}</p>
       </div>
       {professional.bio && <p className="mt-5 line-clamp-4 text-sm leading-6 text-foreground">{professional.bio}</p>}
-      <p className="mt-5 border-t pt-4 text-xs text-muted-foreground">License no. {professional.license_number}</p>
+      <p className="mt-5 border-t pt-4 text-xs text-muted-foreground">رقم الترخيص: {professional.license_number}</p>
     </article>
   );
 }
