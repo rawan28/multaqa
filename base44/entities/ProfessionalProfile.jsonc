@@ -26,6 +26,12 @@
     "license_number": {
       "type": "string"
     },
+    "accessibility": {
+      "type": "string"
+    },
+    "directions": {
+      "type": "string"
+    },
     "bio": {
       "type": "string"
     },

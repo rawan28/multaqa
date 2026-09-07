@@ -13,6 +13,8 @@ export default function ProfessionalCard({ professional }) {
       {professional.specialty && <p className="mt-1 text-sm font-medium text-primary">{specialtyLabels[professional.specialty] || professional.specialty}</p>}
       <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />{professional.location}</p>
+        {professional.accessibility && <p><span className="font-medium text-foreground">إتاحة المكان: </span>{professional.accessibility}</p>}
+        {professional.directions && <p><span className="font-medium text-foreground">الوصول: </span>{professional.directions}</p>}
         <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" />{professional.years_experience} سنوات من الخبرة</p>
         <p className="flex items-center gap-2"><Monitor className="h-4 w-4" />{modeLabels[professional.appointment_mode]}</p>
         {professional.phone && <p className="flex items-center gap-2"><Phone className="h-4 w-4" />{professional.phone}</p>}
