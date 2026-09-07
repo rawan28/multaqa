@@ -1,6 +1,7 @@
 import { MapPin, Monitor, BriefcaseBusiness, Phone, Mail } from "lucide-react";
 
 const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
+const specialtyLabels = { psychotherapy: "العلاج النفسي", clinical_psychology: "علم النفس السريري", nlp: "البرمجة اللغوية العصبية", family_therapy: "العلاج الأسري", couples_therapy: "العلاج الزوجي", child_therapy: "علاج الأطفال واليافعين", other: "مجال آخر" };
 
 export default function ProfessionalCard({ professional }) {
   return (
@@ -9,6 +10,7 @@ export default function ProfessionalCard({ professional }) {
         {professional.full_name?.slice(0, 1).toUpperCase()}
       </div>
       <h2 className="font-heading text-xl font-semibold text-foreground">{professional.full_name}</h2>
+      {professional.specialty && <p className="mt-1 text-sm font-medium text-primary">{specialtyLabels[professional.specialty] || professional.specialty}</p>}
       <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <p className="flex items-center gap-2"><MapPin className="h-4 w-4" />{professional.location}</p>
         <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" />{professional.years_experience} سنوات من الخبرة</p>
