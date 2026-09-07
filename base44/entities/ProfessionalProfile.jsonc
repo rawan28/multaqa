@@ -1,0 +1,37 @@
+{
+  "name": "ProfessionalProfile",
+  "type": "object",
+  "properties": {
+    "full_name": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "years_experience": {
+      "type": "number",
+      "minimum": 0
+    },
+    "appointment_mode": {
+      "type": "string",
+      "enum": [
+        "online",
+        "in_person",
+        "both"
+      ]
+    },
+    "license_number": {
+      "type": "string"
+    },
+    "bio": {
+      "type": "string"
+    }
+  },
+  "required": [
+    "full_name",
+    "location",
+    "years_experience",
+    "appointment_mode",
+    "license_number"
+  ]
+}
