@@ -14,6 +14,7 @@ import Home from './pages/Home';
 import VerificationAdmin from './pages/VerificationAdmin';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
+import EmergencyNotice from './components/EmergencyNotice';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -41,7 +42,9 @@ const AuthenticatedApp = () => {
 
   // Render the main app
   return (
-    <Routes>
+    <>
+      <EmergencyNotice />
+      <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/verification" element={<VerificationAdmin />} />
       <Route path="/privacy" element={<Privacy />} />
@@ -51,7 +54,8 @@ const AuthenticatedApp = () => {
       <Route path="/forgot-password" element={<ForgotPassword />} />
       <Route path="/reset-password" element={<ResetPassword />} />
       <Route path="*" element={<PageNotFound />} />
-    </Routes>
+      </Routes>
+    </>
   );
 };
 
