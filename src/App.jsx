@@ -12,6 +12,7 @@ import UserNotRegisteredError from '@/components/UserNotRegisteredError';
 import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import VerificationAdmin from './pages/VerificationAdmin';
+import Privacy from './pages/Privacy';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -42,6 +43,7 @@ const AuthenticatedApp = () => {
     <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/verification" element={<VerificationAdmin />} />
+      <Route path="/privacy" element={<Privacy />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
