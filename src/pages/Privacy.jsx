@@ -1,3 +1,7 @@
+import { Link } from "react-router-dom";
+import { HeartHandshake } from "lucide-react";
+import SiteFooter from "@/components/SiteFooter";
+
 const sections = [
   ["من نحن", "مُلتقى هو المسؤول عن معالجة البيانات الشخصية التي تجمع عبر هذه المنصة، ويهدف إلى تسهيل الوصول إلى دليل مهني موثوق للدعم النفسي."],
   ["البيانات التي نجمعها", "قد نجمع بيانات الحساب، وبيانات الملف المهني مثل الاسم والتخصص ووسائل الاتصال، ووثائق الاعتماد المقدمة للتحقق، وبيانات الاستخدام التقنية الضرورية لتشغيل المنصة. لا نطلب معلومات علاجية أو سجلات طبية من المتوجهين."],
@@ -10,5 +14,5 @@ const sections = [
 ];
 
 export default function Privacy() {
-  return <main dir="rtl" className="min-h-screen bg-background"><header className="border-b bg-card"><div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-5"><a href="/" className="font-heading text-xl font-semibold">مُلتقى</a><a href="/" className="text-sm font-medium text-primary underline">العودة إلى الدليل</a></div></header><article className="mx-auto max-w-4xl px-5 py-12"><p className="text-sm font-medium text-primary">آخر تحديث: 8 سبتمبر 2026</p><h1 className="mt-2 font-heading text-4xl font-semibold text-foreground">سياسة الخصوصية</h1><p className="mt-5 leading-8 text-muted-foreground">توضح هذه السياسة كيفية تعامل مُلتقى مع البيانات الشخصية عند استخدام المنصة.</p><div className="mt-10 space-y-8">{sections.map(([title, text]) => <section key={title}><h2 className="font-heading text-2xl font-semibold text-foreground">{title}</h2><p className="mt-3 leading-8 text-muted-foreground">{text}</p></section>)}</div></article></main>;
+  return <main id="main-content" dir="rtl" className="min-h-screen bg-background"><header className="border-b bg-card"><div className="mx-auto flex max-w-4xl items-center justify-between px-5 py-5"><Link to="/" className="flex items-center gap-2 font-heading text-xl font-semibold"><HeartHandshake className="h-6 w-6" />مُلتقى</Link><Link to="/" className="text-sm font-medium text-primary underline">العودة إلى الدليل</Link></div></header><article className="mx-auto max-w-4xl px-5 py-12"><p className="text-sm font-medium text-primary">آخر تحديث: 8 سبتمبر 2026</p><h1 className="mt-2 font-heading text-4xl font-semibold text-foreground">سياسة الخصوصية</h1><p className="mt-5 leading-8 text-muted-foreground">توضح هذه السياسة كيفية تعامل مُلتقى مع البيانات الشخصية عند استخدام المنصة.</p><div className="mt-10 space-y-8">{sections.map(([title, text]) => <section key={title}><h2 className="font-heading text-2xl font-semibold text-foreground">{title}</h2><p className="mt-3 leading-8 text-muted-foreground">{text}</p></section>)}</div></article><SiteFooter /></main>;
 }

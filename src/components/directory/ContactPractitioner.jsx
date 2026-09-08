@@ -3,6 +3,7 @@ import { base44 } from "@/api/base44Client";
 import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
 
 export default function ContactPractitioner({ professionalId }) {
   const [open, setOpen] = useState(false);
@@ -29,7 +30,7 @@ export default function ContactPractitioner({ professionalId }) {
   };
 
   return <div className="mt-5">
-    {open ? <form onSubmit={sendMessage} className="space-y-3 rounded-md bg-secondary p-4"><Input value={senderName} onChange={(event) => setSenderName(event.target.value)} placeholder="الاسم الكامل" maxLength={120} required /><Input type="email" value={senderEmail} onChange={(event) => setSenderEmail(event.target.value)} placeholder="البريد الإلكتروني" required /><Textarea value={message} onChange={(event) => setMessage(event.target.value)} placeholder="اكتب رسالتك هنا" className="min-h-24" maxLength={5000} required /><div className="flex gap-3"><Button type="submit" disabled={sending}>{sending ? "جارٍ الإرسال…" : "إرسال الرسالة"}</Button><Button type="button" variant="outline" onClick={() => setOpen(false)}>إلغاء</Button></div></form> : <Button type="button" onClick={() => setOpen(true)}>إرسال رسالة إلى الأخصائي</Button>}
-    {status && <p className="mt-3 text-sm text-muted-foreground">{status}</p>}
+    {open ? <form onSubmit={sendMessage} className="space-y-3 rounded-md bg-secondary p-4"><div><Label htmlFor={`sender-name-${professionalId}`} className="sr-only">الاسم الكامل</Label><Input id={`sender-name-${professionalId}`} value={senderName} onChange={(event) => setSenderName(event.target.value)} placeholder="الاسم الكامل" maxLength={120} required /></div><div><Label htmlFor={`sender-email-${professionalId}`} className="sr-only">البريد الإلكتروني</Label><Input id={`sender-email-${professionalId}`} type="email" value={senderEmail} onChange={(event) => setSenderEmail(event.target.value)} placeholder="البريد الإلكتروني" required /></div><div><Label htmlFor={`contact-message-${professionalId}`} className="sr-only">اكتب رسالتك هنا</Label><Textarea id={`contact-message-${professionalId}`} value={message} onChange={(event) => setMessage(event.target.value)} placeholder="اكتب رسالتك هنا" className="min-h-24" maxLength={5000} required /></div><div className="flex gap-3"><Button type="submit" disabled={sending}>{sending ? "جارٍ الإرسال…" : "إرسال الرسالة"}</Button><Button type="button" variant="outline" onClick={() => setOpen(false)}>إلغاء</Button></div></form> : <Button type="button" onClick={() => setOpen(true)}>إرسال رسالة إلى الأخصائي</Button>}
+    <p className="mt-3 text-sm text-muted-foreground" aria-live="polite" role="status">{status}</p>
   </div>;
 }
