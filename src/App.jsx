@@ -13,6 +13,7 @@ import ScrollToTop from './components/ScrollToTop';
 import Home from './pages/Home';
 import VerificationAdmin from './pages/VerificationAdmin';
 import Privacy from './pages/Privacy';
+import Terms from './pages/Terms';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -44,6 +45,7 @@ const AuthenticatedApp = () => {
       <Route path="/" element={<Home />} />
       <Route path="/verification" element={<VerificationAdmin />} />
       <Route path="/privacy" element={<Privacy />} />
+      <Route path="/terms" element={<Terms />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
