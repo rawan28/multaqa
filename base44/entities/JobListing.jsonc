@@ -28,6 +28,10 @@
       "type": "string",
       "format": "email"
     },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
     "posted_by_id": {
       "type": "string"
     },
