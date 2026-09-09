@@ -15,6 +15,7 @@ import VerificationAdmin from './pages/VerificationAdmin';
 import Privacy from './pages/Privacy';
 import Terms from './pages/Terms';
 import JoinDirectory from './pages/JoinDirectory';
+import PractitionerDashboard from './pages/PractitionerDashboard';
 import Accessibility from './pages/Accessibility';
 import EmergencyNotice from './components/EmergencyNotice';
 import SkipLink from './components/SkipLink';
@@ -54,6 +55,7 @@ const AuthenticatedApp = () => {
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/join" element={<JoinDirectory />} />
+      <Route path="/dashboard" element={<PractitionerDashboard />} />
       <Route path="/accessibility" element={<Accessibility />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />

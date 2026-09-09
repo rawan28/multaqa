@@ -12,7 +12,10 @@ export default function ProfessionalCard({ professional }) {
       {professional.profile_image_url ? <Image src={professional.profile_image_url} alt={`صورة ${professional.full_name}`} className="mb-5 h-16 w-16 overflow-hidden rounded-full" /> : <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-secondary font-heading text-lg font-semibold text-secondary-foreground">{professional.full_name?.slice(0, 1).toUpperCase()}</div>}
       <h3 className="font-heading text-xl font-semibold text-foreground">{professional.full_name}</h3>
       {professional.specialty && <p className="mt-1 text-sm font-medium text-primary">{specialtyLabels[professional.specialty] || professional.specialty}</p>}
-      <span className="mt-3 inline-flex rounded-full bg-secondary px-3 py-1 text-xs font-medium text-secondary-foreground">{professional.accepting_new_patients === false ? "لا يمكنني استقبال متوجهين جدد" : "بإمكاني استقبال متوجهين جدد"}</span>
+      <div className="mt-3 flex flex-wrap gap-2">
+        <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${professional.accepting_new_patients === false ? "bg-secondary text-secondary-foreground" : "bg-primary/10 text-primary"}`}>{professional.accepting_new_patients === false ? "لا أستقبل متوجهين جدد" : "أستقبل متوجهين جدد"}</span>
+        {professional.offers_mentorship === true && <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">أقدّم إشرافًا مهنيًا</span>}
+      </div>
       <div className="mt-4 space-y-2 text-sm text-muted-foreground">
         <p className="flex items-center gap-2"><MapPin className="h-4 w-4" aria-hidden="true" />{professional.location}</p>
         {professional.accessibility && <p><span className="font-medium text-foreground">إتاحة المكان: </span>{professional.accessibility}</p>}

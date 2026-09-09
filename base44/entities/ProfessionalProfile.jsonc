@@ -64,6 +64,10 @@
       "type": "boolean",
       "default": true
     },
+    "offers_mentorship": {
+      "type": "boolean",
+      "default": false
+    },
     "profile_image_url": {
       "type": "string",
       "format": "uri"
