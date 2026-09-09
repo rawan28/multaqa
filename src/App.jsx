@@ -17,7 +17,6 @@ import Terms from './pages/Terms';
 import JoinDirectory from './pages/JoinDirectory';
 import PractitionerDashboard from './pages/PractitionerDashboard';
 import Accessibility from './pages/Accessibility';
-import EmergencyNotice from './components/EmergencyNotice';
 import SkipLink from './components/SkipLink';
 // Add page imports here
 
@@ -48,7 +47,6 @@ const AuthenticatedApp = () => {
   return (
     <>
       <SkipLink />
-      <EmergencyNotice />
       <Routes>
       <Route path="/" element={<Home />} />
       <Route path="/verification" element={<VerificationAdmin />} />
