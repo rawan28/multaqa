@@ -75,7 +75,8 @@ export default function ProfessionalForm({ onSubmit }) {
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <div><Label htmlFor="teudat_zehut">رقم الهوية الإسرائيلية </Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
+        <div><Label htmlFor="teudat_zehut">رقم الهوية 
+</Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
         <div><Label htmlFor="profession">المهنة الأساسية</Label>
           <select id="profession" name="profession" value={values.profession} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
             {professionOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -116,5 +117,4 @@ export default function ProfessionalForm({ onSubmit }) {
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
     </form>);
-
 }
