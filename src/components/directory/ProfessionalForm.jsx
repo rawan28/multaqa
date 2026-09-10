@@ -8,11 +8,11 @@ import SecureDocumentUpload from "@/components/directory/SecureDocumentUpload";
 import { isValidTeudatZehut } from "@/lib/teudatZehut";
 
 const professionOptions = [
-{ value: "psychologist", label: "أخصائي نفسي" },
-{ value: "social_worker", label: "أخصائي اجتماعي" },
-{ value: "psychiatrist", label: "طبيب نفسي" },
-{ value: "clinical_criminologist", label: "أخصائي علم الجريمة السريري" },
-{ value: "art_therapist", label: "معالج بالفنون" }];
+{ value: "psychologist", label: "أخصائي نفسي — פסיכולוג" },
+{ value: "social_worker", label: "أخصائي اجتماعي — עובד סוציאלי" },
+{ value: "psychiatrist", label: "طبيب نفسي — פסיכיאטר" },
+{ value: "clinical_criminologist", label: "أخصائي علم الجريمة السريري — קרימינולוג קליני" },
+{ value: "art_therapist", label: "معالج بالفنون — מטפל באמנות" }];
 
 const primaryProfessions = ["psychologist", "social_worker", "psychiatrist"];
 const subSpecialtyOptions = [
