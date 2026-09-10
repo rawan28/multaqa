@@ -34,7 +34,11 @@ const specialtyOptions = [
 
 const workDays = [["sunday", "الأحد"], ["monday", "الاثنين"], ["tuesday", "الثلاثاء"], ["wednesday", "الأربعاء"], ["thursday", "الخميس"], ["friday", "الجمعة"], ["saturday", "السبت"]];
 
-const initialValues = { full_legal_name: "", teudat_zehut: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [], accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "" };
+const genderOptions = [
+{ value: "male", label: "ذكر — זכר" },
+{ value: "female", label: "أنثى — נקבה" },
+{ value: "other", label: "آخر — אחר" }];
+const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [], accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "" };
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
@@ -74,6 +78,12 @@ export default function ProfessionalForm({ onSubmit }) {
     <form onSubmit={submit} className="grid gap-5">
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
+      <div><Label htmlFor="gender">الجنس — מגדר</Label>
+        <select id="gender" name="gender" value={values.gender} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
+          <option value="" disabled>يرجى الاختيار — נא לבחור</option>
+          {genderOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
+        </select>
+      </div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div><Label htmlFor="teudat_zehut">رقم الهوية 
 </Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>

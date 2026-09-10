@@ -11,6 +11,14 @@
     "teudat_zehut": {
       "type": "string"
     },
+    "gender": {
+      "type": "string",
+      "enum": [
+        "male",
+        "female",
+        "other"
+      ]
+    },
     "profession": {
       "type": "string",
       "enum": [
