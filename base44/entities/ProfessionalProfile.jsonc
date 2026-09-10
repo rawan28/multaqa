@@ -5,16 +5,20 @@
     "full_name": {
       "type": "string"
     },
+    "full_legal_name": {
+      "type": "string"
+    },
+    "teudat_zehut": {
+      "type": "string"
+    },
     "profession": {
       "type": "string",
       "enum": [
         "psychologist",
-        "psychotherapist",
-        "nlp",
         "social_worker",
-        "art_therapist",
-        "parent_coach",
-        "other"
+        "psychiatrist",
+        "clinical_criminologist",
+        "art_therapist"
       ]
     },
     "provider_user_id": {
@@ -23,6 +27,47 @@
     "is_active": {
       "type": "boolean",
       "default": false
+    },
+    "verification_status": {
+      "type": "string",
+      "enum": [
+        "pending_verification",
+        "verified",
+        "rejected"
+      ],
+      "default": "pending_verification"
+    },
+    "verified_at": {
+      "type": "string"
+    },
+    "verified_by_admin_id": {
+      "type": "string"
+    },
+    "rejection_reason": {
+      "type": "string"
+    },
+    "base_license_number": {
+      "type": "string"
+    },
+    "sub_specialty": {
+      "type": "string"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uri": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      }
     },
     "location": {
       "type": "string"
@@ -95,20 +140,30 @@
   },
   "required": [
     "full_name",
+    "full_legal_name",
+    "teudat_zehut",
     "profession",
+    "license_number",
+    "verification_status",
+    "provider_user_id",
+    "is_active",
     "location",
     "years_experience",
     "appointment_mode",
-    "specialty",
-    "license_number",
-    "provider_user_id",
-    "is_active"
+    "specialty"
   ],
   "rls": {
     "read": {
       "$or": [
         {
-          "data.is_active": true
+          "$and": [
+            {
+              "data.verification_status": "verified"
+            },
+            {
+              "data.is_active": true
+            }
+          ]
         },
         {
           "data.provider_user_id": "{{user.id}}"
