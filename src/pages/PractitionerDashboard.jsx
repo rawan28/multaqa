@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/AuthContext";
 import { Switch } from "@/components/ui/switch";
 import { Label } from "@/components/ui/label";
 import SiteFooter from "@/components/SiteFooter";
+import DeletionRequestForm from "@/components/account/DeletionRequestForm";
 
 export default function PractitionerDashboard() {
   const { isAuthenticated } = useAuth();
@@ -90,6 +91,11 @@ export default function PractitionerDashboard() {
             </div>
 
             {profile.verification_status === "pending_verification" && <p className="rounded-md bg-secondary p-4 text-sm text-secondary-foreground">ملفك قيد المراجعة. لن يظهر في الدليل حتى يتم التحقق منه من قبل الإدارة.</p>}{profile.verification_status === "rejected" && <p className="rounded-md bg-destructive/10 p-4 text-sm text-destructive">تم رفض ملفك. السبب: {profile.rejection_reason || "يرجى تحديث الوثائق وإعادة الإرسال."}</p>}{profile.verification_status === "verified" && <p className="rounded-md bg-primary/10 p-4 text-sm text-primary">تم التحقق من ملفك وهو ظاهر في الدليل.</p>}
+          </div>
+        )}
+        {isAuthenticated && (
+          <div className="mt-10">
+            <DeletionRequestForm />
           </div>
         )}
       </section>
