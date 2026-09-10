@@ -8,9 +8,6 @@
     "full_legal_name": {
       "type": "string"
     },
-    "teudat_zehut": {
-      "type": "string"
-    },
     "gender": {
       "type": "string",
       "enum": [
@@ -59,23 +56,6 @@
     },
     "sub_specialty": {
       "type": "string"
-    },
-    "documents": {
-      "type": "array",
-      "items": {
-        "type": "object",
-        "properties": {
-          "uri": {
-            "type": "string"
-          },
-          "name": {
-            "type": "string"
-          },
-          "type": {
-            "type": "string"
-          }
-        }
-      }
     },
     "location": {
       "type": "string"
@@ -149,7 +129,6 @@
   "required": [
     "full_name",
     "full_legal_name",
-    "teudat_zehut",
     "profession",
     "license_number",
     "verification_status",

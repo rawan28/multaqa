@@ -46,7 +46,6 @@ export default async function(req: Request): Promise<Response> {
     const payload: any = {
       full_name: profile.full_legal_name,
       full_legal_name: profile.full_legal_name,
-      teudat_zehut: profile.teudat_zehut,
       profession: profile.profession,
       license_number: profile.license_number,
       location: profile.location,
@@ -65,7 +64,6 @@ export default async function(req: Request): Promise<Response> {
       email: profile.email || "",
       sub_specialty: subSpecialty,
       base_license_number: subSpecialty !== "none" ? profile.base_license_number : "",
-      documents,
       verification_status: "pending_verification",
       is_active: false,
       rejection_reason: "",
@@ -73,10 +71,26 @@ export default async function(req: Request): Promise<Response> {
       verified_by_admin_id: "",
     };
 
+    let profileId: string;
     if (existing[0]) {
       await service.ProfessionalProfile.update(existing[0].id, payload);
+      profileId = existing[0].id;
     } else {
-      await service.ProfessionalProfile.create({ ...payload, provider_user_id: user.id });
+      const created = await service.ProfessionalProfile.create({ ...payload, provider_user_id: user.id });
+      profileId = created.id;
+    }
+
+    const privatePayload = {
+      provider_user_id: user.id,
+      professional_profile_id: profileId,
+      teudat_zehut: profile.teudat_zehut,
+      documents,
+    };
+    const existingPrivate = await service.ProviderPrivateData.filter({ provider_user_id: user.id }, "-created_date", 1);
+    if (existingPrivate[0]) {
+      await service.ProviderPrivateData.update(existingPrivate[0].id, privatePayload);
+    } else {
+      await service.ProviderPrivateData.create(privatePayload);
     }
     return Response.json({ status: "pending" });
   } catch (error) {

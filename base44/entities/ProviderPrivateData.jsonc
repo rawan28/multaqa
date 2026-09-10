@@ -1,0 +1,69 @@
+{
+  "name": "ProviderPrivateData",
+  "type": "object",
+  "properties": {
+    "provider_user_id": {
+      "type": "string"
+    },
+    "professional_profile_id": {
+      "type": "string"
+    },
+    "teudat_zehut": {
+      "type": "string"
+    },
+    "documents": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "uri": {
+            "type": "string"
+          },
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "type": "string"
+          }
+        }
+      }
+    }
+  },
+  "required": [
+    "provider_user_id"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.provider_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {
+      "data.provider_user_id": "{{user.id}}"
+    },
+    "update": {
+      "$or": [
+        {
+          "data.provider_user_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "user_condition": {
+        "role": "admin"
+      }
+    }
+  }
+}
