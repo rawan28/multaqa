@@ -8,30 +8,30 @@ import SecureDocumentUpload from "@/components/directory/SecureDocumentUpload";
 import { isValidTeudatZehut } from "@/lib/teudatZehut";
 
 const professionOptions = [
-  { value: "psychologist", label: "أخصائي نفسي" },
-  { value: "social_worker", label: "أخصائي اجتماعي" },
-  { value: "psychiatrist", label: "طبيب نفسي" },
-  { value: "clinical_criminologist", label: "أخصائي علم الجريمة السريري" },
-  { value: "art_therapist", label: "معالج بالفنون" },
-];
+{ value: "psychologist", label: "أخصائي نفسي" },
+{ value: "social_worker", label: "أخصائي اجتماعي" },
+{ value: "psychiatrist", label: "طبيب نفسي" },
+{ value: "clinical_criminologist", label: "أخصائي علم الجريمة السريري" },
+{ value: "art_therapist", label: "معالج بالفنون" }];
+
 const primaryProfessions = ["psychologist", "social_worker", "psychiatrist"];
 const subSpecialtyOptions = [
-  { value: "none", label: "بدون تدريب إضافي" },
-  { value: "psychotherapy_training", label: "تدريب العلاج النفسي بعد الجامعي" },
-  { value: "cbt", label: "العلاج المعرفي السلوكي (CBT)" },
-  { value: "psychodrama", label: "السيكودراما" },
-  { value: "family_therapy", label: "العلاج الأسري" },
-  { value: "other_training", label: "تدريب آخر معتمد" },
-];
+{ value: "none", label: "بدون تدريب إضافي" },
+{ value: "psychotherapy_training", label: "تدريب العلاج النفسي بعد الجامعي" },
+{ value: "cbt", label: "العلاج المعرفي السلوكي (CBT)" },
+{ value: "psychodrama", label: "السيكودراما" },
+{ value: "family_therapy", label: "العلاج الأسري" },
+{ value: "other_training", label: "تدريب آخر معتمد" }];
+
 const specialtyOptions = [
-  { value: "clinical_psychology", label: "علم النفس السريري" },
-  { value: "psychotherapy", label: "العلاج النفسي" },
-  { value: "family_therapy", label: "العلاج الأسري" },
-  { value: "couples_therapy", label: "العلاج الزوجي" },
-  { value: "child_therapy", label: "علاج الأطفال واليافعين" },
-  { value: "nlp", label: "البرمجة اللغوية العصبية" },
-  { value: "other", label: "مجال آخر" },
-];
+{ value: "clinical_psychology", label: "علم النفس السريري" },
+{ value: "psychotherapy", label: "العلاج النفسي" },
+{ value: "family_therapy", label: "العلاج الأسري" },
+{ value: "couples_therapy", label: "العلاج الزوجي" },
+{ value: "child_therapy", label: "علاج الأطفال واليافعين" },
+{ value: "nlp", label: "البرمجة اللغوية العصبية" },
+{ value: "other", label: "مجال آخر" }];
+
 const workDays = [["sunday", "الأحد"], ["monday", "الاثنين"], ["tuesday", "الثلاثاء"], ["wednesday", "الأربعاء"], ["thursday", "الخميس"], ["friday", "الجمعة"], ["saturday", "السبت"]];
 
 const initialValues = { full_legal_name: "", teudat_zehut: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [], accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "" };
@@ -49,14 +49,14 @@ export default function ProfessionalForm({ onSubmit }) {
   const submit = async (event) => {
     event.preventDefault();
     setError("");
-    if (!isValidTeudatZehut(values.teudat_zehut)) { setError("رقم الهوية الإسرائيلية (ت.ز) غير صالح. يُرجى التحقق من الرقم."); return; }
+    if (!isValidTeudatZehut(values.teudat_zehut)) {setError("رقم الهوية الإسرائيلية (ت.ز) غير صالح. يُرجى التحقق من الرقم.");return;}
     if (values.sub_specialty !== "none") {
-      if (!primaryProfessions.includes(values.profession)) { setError("اختيار تخصص فرعي / تدريب علاج نفسي يتطلب مهنة أساسية معتمدة (أخصائي نفسي، أخصائي اجتماعي، أو طبيب نفسي)."); return; }
-      if (!values.base_license_number.trim()) { setError("يرجى إدخال رقم رخصة المهنة الأساسية المعتمدة."); return; }
+      if (!primaryProfessions.includes(values.profession)) {setError("اختيار تخصص فرعي / تدريب علاج نفسي يتطلب مهنة أساسية معتمدة (أخصائي نفسي، أخصائي اجتماعي، أو طبيب نفسي).");return;}
+      if (!values.base_license_number.trim()) {setError("يرجى إدخال رقم رخصة المهنة الأساسية المعتمدة.");return;}
     }
     const hasLicense = documents.some((d) => d.type === "license_card");
     const hasDiploma = documents.some((d) => d.type === "diploma");
-    if (!hasLicense || !hasDiploma) { setError("يرجى رفع بطاقة الرخصة وشهادة أكاديمية واحدة على الأقل."); return; }
+    if (!hasLicense || !hasDiploma) {setError("يرجى رفع بطاقة الرخصة وشهادة أكاديمية واحدة على الأقل.");return;}
     setSaving(true);
     try {
       const result = await onSubmit({ profile: { ...values, years_experience: Number(values.years_experience) }, documents });
@@ -75,7 +75,7 @@ export default function ProfessionalForm({ onSubmit }) {
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
       <div className="grid gap-5 sm:grid-cols-2">
-        <div><Label htmlFor="teudat_zehut">رقم الهوية الإسرائيلية (ت.ز)</Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
+        <div><Label htmlFor="teudat_zehut">رقم الهوية الإسرائيلية </Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
         <div><Label htmlFor="profession">المهنة الأساسية</Label>
           <select id="profession" name="profession" value={values.profession} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
             {professionOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -115,6 +115,6 @@ export default function ProfessionalForm({ onSubmit }) {
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
-    </form>
-  );
+    </form>);
+
 }
