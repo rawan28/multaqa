@@ -49,7 +49,7 @@ const AuthenticatedApp = () => {
       <SkipLink />
       <Routes>
       <Route path="/" element={<Home />} />
-      <Route path="/verification" element={<VerificationAdmin />} />
+      <Route path="/admin/verifications" element={<VerificationAdmin />} />
       <Route path="/privacy" element={<Privacy />} />
       <Route path="/terms" element={<Terms />} />
       <Route path="/join" element={<JoinDirectory />} />

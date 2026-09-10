@@ -89,7 +89,7 @@ export default function PractitionerDashboard() {
               <Switch id="offers_mentorship" checked={profile.offers_mentorship === true} onCheckedChange={() => toggle("offers_mentorship")} disabled={saving === "offers_mentorship"} aria-label="أقدّم إشرافًا مهنيًا للممارسين" />
             </div>
 
-            {!profile.is_active && <p className="rounded-md bg-secondary p-4 text-sm text-secondary-foreground">ملفك قيد المراجعة ولن يظهر في الدليل حتى يتم تفعيله.</p>}
+            {profile.verification_status === "pending_verification" && <p className="rounded-md bg-secondary p-4 text-sm text-secondary-foreground">ملفك قيد المراجعة. لن يظهر في الدليل حتى يتم التحقق منه من قبل الإدارة.</p>}{profile.verification_status === "rejected" && <p className="rounded-md bg-destructive/10 p-4 text-sm text-destructive">تم رفض ملفك. السبب: {profile.rejection_reason || "يرجى تحديث الوثائق وإعادة الإرسال."}</p>}{profile.verification_status === "verified" && <p className="rounded-md bg-primary/10 p-4 text-sm text-primary">تم التحقق من ملفك وهو ظاهر في الدليل.</p>}
           </div>
         )}
       </section>
