@@ -17,6 +17,7 @@ import Terms from './pages/Terms';
 import JoinDirectory from './pages/JoinDirectory';
 import PractitionerDashboard from './pages/PractitionerDashboard';
 import Accessibility from './pages/Accessibility';
+import ProviderTerms from './pages/ProviderTerms';
 import SkipLink from './components/SkipLink';
 // Add page imports here
 
@@ -55,6 +56,7 @@ const AuthenticatedApp = () => {
       <Route path="/join" element={<JoinDirectory />} />
       <Route path="/dashboard" element={<PractitionerDashboard />} />
       <Route path="/accessibility" element={<Accessibility />} />
+      <Route path="/provider-terms" element={<ProviderTerms />} />
       <Route path="/login" element={<Login />} />
       <Route path="/register" element={<Register />} />
       <Route path="/forgot-password" element={<ForgotPassword />} />
