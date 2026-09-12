@@ -78,7 +78,8 @@ export default function ProfessionalForm({ onSubmit }) {
     <form onSubmit={submit} className="grid gap-5">
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
-      <div><Label htmlFor="gender">الجنس — מגדר</Label>
+      <div><Label htmlFor="gender">الجنس
+</Label>
         <select id="gender" name="gender" value={values.gender} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
           <option value="" disabled>يرجى الاختيار — נא לבחור</option>
           {genderOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
@@ -126,5 +127,4 @@ export default function ProfessionalForm({ onSubmit }) {
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
-    </form>);
-}
+    </form>);}
