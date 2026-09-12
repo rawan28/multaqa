@@ -118,6 +118,9 @@
     "bio": {
       "type": "string"
     },
+    "professional_associations": {
+      "type": "string"
+    },
     "phone": {
       "type": "string"
     },

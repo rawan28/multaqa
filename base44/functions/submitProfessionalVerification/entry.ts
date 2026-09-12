@@ -60,6 +60,7 @@ export default async function(req: Request): Promise<Response> {
       accessibility: profile.accessibility || "",
       directions: profile.directions || "",
       bio: profile.bio || "",
+      professional_associations: profile.professional_associations || "",
       phone: profile.phone || "",
       email: profile.email || "",
       sub_specialty: subSpecialty,

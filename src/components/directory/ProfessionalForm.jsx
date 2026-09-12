@@ -38,7 +38,7 @@ const genderOptions = [
 { value: "male", label: "ذكر — זכר" },
 { value: "female", label: "أنثى — נקבה" },
 { value: "other", label: "آخر — אחר" }];
-const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [], accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "" };
+const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
@@ -124,6 +124,7 @@ export default function ProfessionalForm({ onSubmit }) {
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
       <div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="phone">رقم الهاتف</Label><Input id="phone" name="phone" type="tel" value={values.phone} onChange={update} required /></div><div><Label htmlFor="email">البريد الإلكتروني</Label><Input id="email" name="email" type="email" value={values.email} onChange={update} required /></div></div>
       <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
+      <div><Label htmlFor="professional_associations">العضوية في جمعيات مهنية</Label><Textarea id="professional_associations" name="professional_associations" value={values.professional_associations} onChange={update} className="mt-2 min-h-20" placeholder="اذكر الجمعيات المهنية التي أنت عضو فيها (اختياري)" /></div>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
