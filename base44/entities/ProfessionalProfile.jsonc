@@ -26,6 +26,9 @@
         "art_therapist"
       ]
     },
+    "second_profession_name": {
+      "type": "string"
+    },
     "provider_user_id": {
       "type": "string"
     },

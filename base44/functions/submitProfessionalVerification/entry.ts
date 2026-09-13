@@ -61,6 +61,7 @@ export default async function(req: Request): Promise<Response> {
       directions: profile.directions || "",
       bio: profile.bio || "",
       professional_associations: profile.professional_associations || "",
+      second_profession_name: profile.has_second_profession ? (profile.second_profession_name || "") : "",
       phone: profile.phone || "",
       email: profile.email || "",
       sub_specialty: subSpecialty,

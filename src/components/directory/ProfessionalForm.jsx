@@ -38,7 +38,7 @@ const genderOptions = [
 { value: "male", label: "ذكر — זכר" },
 { value: "female", label: "أنثى — נקבה" },
 { value: "other", label: "آخر — אחר" }];
-const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
+const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   has_second_profession: false, second_profession_name: "", accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
@@ -58,6 +58,7 @@ export default function ProfessionalForm({ onSubmit }) {
       if (!primaryProfessions.includes(values.profession)) {setError("اختيار تخصص فرعي / تدريب علاج نفسي يتطلب مهنة أساسية معتمدة (أخصائي نفسي، أخصائي اجتماعي، أو طبيب نفسي).");return;}
       if (!values.base_license_number.trim()) {setError("يرجى إدخال رقم رخصة المهنة الأساسية المعتمدة.");return;}
     }
+    if (values.has_second_profession && !values.second_profession_name.trim()) {setError("يرجى إدخال اسم اللقب/المهنة الثانية.");return;}
     const hasLicense = documents.some((d) => d.type === "license_card");
     const hasDiploma = documents.some((d) => d.type === "diploma");
     if (!hasLicense || !hasDiploma) {setError("يرجى رفع بطاقة الرخصة وشهادة أكاديمية واحدة على الأقل.");return;}
@@ -95,6 +96,8 @@ export default function ProfessionalForm({ onSubmit }) {
         </div>
       </div>
       <div><Label htmlFor="license_number">رقم ترخيص الممارس</Label><Input id="license_number" name="license_number" value={values.license_number} onChange={update} required /></div>
+      <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.has_second_profession} onChange={(event) => setValues({ ...values, has_second_profession: event.target.checked })} />لديّ لقب/مهنة ثانية في مجال آخر</label>
+      {values.has_second_profession && <div><Label htmlFor="second_profession_name">اسم اللقب/المهنة الثانية</Label><Input id="second_profession_name" name="second_profession_name" value={values.second_profession_name} onChange={update} required /></div>}
       <div className="grid gap-5 sm:grid-cols-2">
         <div><Label htmlFor="sub_specialty">تخصص فرعي / تدريب علاج نفسي بعد الجامعي</Label>
           <select id="sub_specialty" name="sub_specialty" value={values.sub_specialty} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
