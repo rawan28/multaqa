@@ -9,12 +9,12 @@ export default function JobListings({ listings, loading, onPostClick }) {
       <div className="mx-auto max-w-6xl px-5 py-12">
         <p className="text-sm font-medium text-primary">لوحة الإعلانات
 </p>
-        <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground">إعلانات عن ف وظائف</h2>
+        <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground"> لوحة 
+إعلانات </h2>
         <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">فرص عمل للمعالجين والأخصائيين النفسيين في عيادات ومراكز مختلفة.</p>
 
         <div className="mt-8">
-          {loading ? <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> :
-          listings.length ?
+          {loading ? <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> : listings.length ?
           <div className="grid gap-4 md:grid-cols-2">
               {listings.map((job) =>
             <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
