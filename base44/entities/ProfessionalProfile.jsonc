@@ -117,6 +117,10 @@
         "both"
       ]
     },
+    "session_fee": {
+      "type": "number",
+      "minimum": 0
+    },
     "license_number": {
       "type": "string"
     },

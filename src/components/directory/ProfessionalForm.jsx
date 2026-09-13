@@ -22,7 +22,7 @@ const initialValues = {
   license_confirmed: false, license_number: "",
   is_association_member: false, professional_associations: "",
   location: "", years_experience: "", appointment_mode: "both",
-  work_days: [], min_age: "", max_age: "", accepting_new_patients: true,
+  work_days: [], min_age: "", max_age: "", session_fee: "", accepting_new_patients: true,
   profile_image_url: "", website: "", accessibility: "", accessibility_notes: "", directions: "",
   phone: "", email: "", bio: "",
 };
@@ -71,6 +71,7 @@ export default function ProfessionalForm({ onSubmit }) {
           years_experience: Number(values.years_experience),
           min_age: values.min_age === "" ? null : Number(values.min_age),
           max_age: values.max_age === "" ? null : Number(values.max_age),
+          session_fee: values.session_fee === "" ? null : Number(values.session_fee),
           academic_titles: filledTitles.map((t) => ({ title: t.title.trim(), document_uri: t.document_uri, document_name: t.document_name })),
           specialties: filledSpecialties.map((s) => ({ name: s.name.trim(), documents: s.documents.map((d) => ({ uri: d.uri, name: d.name })) })),
           professional_associations: values.is_association_member ? values.professional_associations.trim() : "",
@@ -128,11 +129,13 @@ export default function ProfessionalForm({ onSubmit }) {
       </fieldset>
 
       <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
+      <div><Label htmlFor="website">رابط الموقع الإلكتروني</Label><Input id="website" name="website" type="url" value={values.website} onChange={update} placeholder="https://" /></div>
       <div><Label htmlFor="appointment_mode">نوع الجلسات</Label>
         <select id="appointment_mode" name="appointment_mode" value={values.appointment_mode} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
           <option value="online">عبر الإنترنت</option><option value="in_person">حضوري</option><option value="both">عبر الإنترنت وحضوري</option>
         </select>
       </div>
+      <div><Label htmlFor="session_fee">المبلغ المطلوب للجلسة (بالشيكل)</Label><Input id="session_fee" name="session_fee" type="number" min="0" value={values.session_fee} onChange={update} /></div>
       <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
       {values.appointment_mode !== "online" && <div className="grid gap-5"><fieldset><legend className="text-sm font-medium">إتاحة المكان</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{accessibilityOptions.map((o) => <label key={o} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={values.accessibility.split("، ").includes(o)} onChange={() => toggleAccessibility(o)} />{o}</label>)}</div><Label htmlFor="accessibility_notes" className="mt-3 block">ملاحظات إضافية عن الإتاحة</Label><Textarea id="accessibility_notes" name="accessibility_notes" value={values.accessibility_notes} onChange={update} className="mt-2 min-h-20" /></fieldset><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
