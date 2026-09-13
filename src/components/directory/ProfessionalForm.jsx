@@ -127,15 +127,13 @@ export default function ProfessionalForm({ onSubmit }) {
       </fieldset>
 
       <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
-      <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div><Label htmlFor="years_experience">سنوات الخبرة</Label><Input id="years_experience" name="years_experience" type="number" min="0" value={values.years_experience} onChange={update} required /></div>
-        <div><Label htmlFor="appointment_mode">نوع الجلسات</Label>
-          <select id="appointment_mode" name="appointment_mode" value={values.appointment_mode} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
-            <option value="online">عبر الإنترنت</option><option value="in_person">حضوري</option><option value="both">عبر الإنترنت وحضوري</option>
-          </select>
-        </div>
+      <div><Label htmlFor="appointment_mode">نوع الجلسات</Label>
+        <select id="appointment_mode" name="appointment_mode" value={values.appointment_mode} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
+          <option value="online">عبر الإنترنت</option><option value="in_person">حضوري</option><option value="both">عبر الإنترنت وحضوري</option>
+        </select>
       </div>
+      <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
+      <div><Label htmlFor="years_experience">سنوات الخبرة</Label><Input id="years_experience" name="years_experience" type="number" min="0" value={values.years_experience} onChange={update} required /></div>
       {values.appointment_mode !== "online" && <div className="grid gap-5"><fieldset><legend className="text-sm font-medium">إتاحة المكان</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{accessibilityOptions.map((o) => <label key={o} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={values.accessibility.split("، ").includes(o)} onChange={() => toggleAccessibility(o)} />{o}</label>)}</div><Label htmlFor="accessibility_notes" className="mt-3 block">ملاحظات إضافية عن الإتاحة</Label><Textarea id="accessibility_notes" name="accessibility_notes" value={values.accessibility_notes} onChange={update} className="mt-2 min-h-20" /></fieldset><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
       <fieldset className="grid gap-3 rounded-lg border bg-card p-5"><legend className="px-1 text-sm font-semibold text-foreground">الأجيال التي أعمل معها</legend><p className="text-xs text-muted-foreground">حدد الفئة العمرية التي تستقبلها في عيادتك.</p><div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="min_age">من العمر (بالسنوات)</Label><Input id="min_age" name="min_age" type="number" min="0" max="120" value={values.min_age} onChange={update} /></div><div><Label htmlFor="max_age">إلى العمر (بالسنوات)</Label><Input id="max_age" name="max_age" type="number" min="0" max="120" value={values.max_age} onChange={update} /></div></div></fieldset>
