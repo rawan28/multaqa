@@ -123,6 +123,7 @@ export default function ProfessionalForm({ onSubmit }) {
         {values.is_association_member && <div><Label htmlFor="professional_associations">اسم الجمعية/الجمعيات</Label><Textarea id="professional_associations" name="professional_associations" value={values.professional_associations} onChange={update} className="mt-2 min-h-20" placeholder="مثال: جمعية العلاج النفسي (הסתדרות הפסיכותרפיסטים)" required /></div>}
       </fieldset>
 
+      <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
       <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div><Label htmlFor="years_experience">سنوات الخبرة</Label><Input id="years_experience" name="years_experience" type="number" min="0" value={values.years_experience} onChange={update} required /></div>
@@ -136,7 +137,6 @@ export default function ProfessionalForm({ onSubmit }) {
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
       <div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="phone">رقم الهاتف</Label><Input id="phone" name="phone" type="tel" value={values.phone} onChange={update} required /></div><div><Label htmlFor="email">البريد الإلكتروني</Label><Input id="email" name="email" type="email" value={values.email} onChange={update} required /></div></div>
-      <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
