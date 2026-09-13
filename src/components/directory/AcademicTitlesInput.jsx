@@ -7,7 +7,7 @@ import { Plus } from "lucide-react";
 
 const MAX_SIZE = 10 * 1024 * 1024;
 const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
-const ordinalLabel = ["اللقب الأكاديمي الأول (إجباري)", "اللقب الأكاديمي الثاني (اختياري)", "اللقب الأكاديمي الثالث (اختياري)"];
+const ordinalLabel = ["اللقب الأكاديمي الأول (إجباري)", "اللقب الأكاديمي الثاني (إجباري)", "اللقب الأكاديمي الثالث (اختياري)"];
 
 export default function AcademicTitlesInput({ value, onChange }) {
   const [uploadingIndex, setUploadingIndex] = useState(null);
@@ -44,7 +44,7 @@ export default function AcademicTitlesInput({ value, onChange }) {
             <p className="text-sm font-medium text-foreground">{ordinalLabel[index] || `اللقب الأكاديمي ${index + 1}`}</p>
             {value.length > 1 && <button type="button" onClick={() => removeRow(index)} className="text-sm text-destructive underline">إزالة</button>}
           </div>
-          <Input className="mt-2" placeholder="مثال: بكالوريوس في علم النفس" value={title.title} onChange={(e) => update(index, "title", e.target.value)} required={index === 0} />
+          <Input className="mt-2" placeholder="مثال: بكالوريوس في علم النفس" value={title.title} onChange={(e) => update(index, "title", e.target.value)} required={index <= 1} />
           <div className="mt-3">
             <Label className="text-xs text-muted-foreground">ملف إثبات (شهادة) — إجباري</Label>
             <input type="file" accept="application/pdf,image/jpeg,image/png" onChange={(e) => upload(index, e)} disabled={uploadingIndex === index} className="mt-1 block text-sm" />

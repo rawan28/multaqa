@@ -28,7 +28,7 @@ const initialValues = {
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
-  const [academicTitles, setAcademicTitles] = useState([{ title: "", document_uri: "", document_name: "" }]);
+  const [academicTitles, setAcademicTitles] = useState([{ title: "", document_uri: "", document_name: "" }, { title: "", document_uri: "", document_name: "" }]);
   const [specialties, setSpecialties] = useState([{ name: "", documents: [] }]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
@@ -42,7 +42,7 @@ export default function ProfessionalForm({ onSubmit }) {
     setError("");
     if (!isValidTeudatZehut(values.teudat_zehut)) { setError("رقم الهوية الإسرائيلية (ت.ز) غير صالح. يُرجى التحقق من الرقم."); return; }
     const filledTitles = academicTitles.filter((t) => t.title.trim() || t.document_uri);
-    if (!filledTitles.length || !filledTitles[0].title.trim() || !filledTitles[0].document_uri) { setError("يرجى إدخال اللقب الأكاديمي الأول وإرفاق ملف إثبات."); return; }
+    if (filledTitles.length < 2) { setError("يرجى إدخال اللقبين الأكاديميين الأول والثاني مع ملف إثبات لكل منهما."); return; }
     for (const t of filledTitles) {
       if (!t.title.trim() || !t.document_uri) { setError("كل لقب أكاديمي يتطلب اسمًا وملف إثبات."); return; }
     }
@@ -68,7 +68,7 @@ export default function ProfessionalForm({ onSubmit }) {
       });
       setMessage(result.status === "approved" ? "تم تفعيل ملفك المهني." : "تم إرسال ملفك للتحقق والمراجعة. لن يظهر في الدليل حتى تتم الموافقة عليه.");
       setValues(initialValues);
-      setAcademicTitles([{ title: "", document_uri: "", document_name: "" }]);
+      setAcademicTitles([{ title: "", document_uri: "", document_name: "" }, { title: "", document_uri: "", document_name: "" }]);
       setSpecialties([{ name: "", documents: [] }]);
     } catch {
       setError("تعذر إرسال الطلب. حاول مرة أخرى.");

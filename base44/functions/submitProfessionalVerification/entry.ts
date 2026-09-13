@@ -15,7 +15,7 @@ export default async function(req: Request): Promise<Response> {
     if (typeof profile.teudat_zehut !== "string" || !isValidTeudatZehut(profile.teudat_zehut)) return Response.json({ error: "Invalid Teudat Zehut" }, { status: 400 });
 
     const academicTitles = Array.isArray(profile.academic_titles) ? profile.academic_titles : [];
-    if (!academicTitles.length) return Response.json({ error: "At least one academic title is required" }, { status: 400 });
+    if (academicTitles.length < 2) return Response.json({ error: "At least two academic titles are required" }, { status: 400 });
     for (const t of academicTitles) {
       if (!t || typeof t.title !== "string" || !t.title.trim() || typeof t.document_uri !== "string" || !t.document_uri) return Response.json({ error: "Each academic title requires a title and a proof document" }, { status: 400 });
     }
