@@ -7,11 +7,11 @@ const LOGO_URL = "https://media.base44.com/images/public/6a9ea4320796aa673f0e625
 // Image component for optimized delivery.
 export default function BrandLogo({ className = "h-20 w-20" }) {
   return (
-    <Image
-      src={LOGO_URL}
-      alt="شعار مُلتقى"
-      fittingType="fit"
-      className={className}
-    />
-  );
+    <Image src="https://media.base44.com/images/public/6a9ea4320796aa673f0e625c/367320c79_Multaqa_logo_2.jpg"
+
+    alt="شعار مُلتقى"
+    fittingType="fit"
+    className={className} />);
+
+
 }
