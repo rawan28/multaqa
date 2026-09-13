@@ -95,6 +95,7 @@ export default function ProfessionalForm({ onSubmit }) {
           {genderOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </div>
+      <div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="phone">رقم الهاتف</Label><Input id="phone" name="phone" type="tel" value={values.phone} onChange={update} required /></div><div><Label htmlFor="email">البريد الإلكتروني</Label><Input id="email" name="email" type="email" value={values.email} onChange={update} required /></div></div>
       <div><Label htmlFor="teudat_zehut">رقم الهوية</Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
 
       <fieldset className="grid gap-3 rounded-lg border bg-card p-5">
@@ -136,7 +137,6 @@ export default function ProfessionalForm({ onSubmit }) {
       {values.appointment_mode !== "online" && <div className="grid gap-5"><fieldset><legend className="text-sm font-medium">إتاحة المكان</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{accessibilityOptions.map((o) => <label key={o} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={values.accessibility.split("، ").includes(o)} onChange={() => toggleAccessibility(o)} />{o}</label>)}</div><Label htmlFor="accessibility_notes" className="mt-3 block">ملاحظات إضافية عن الإتاحة</Label><Textarea id="accessibility_notes" name="accessibility_notes" value={values.accessibility_notes} onChange={update} className="mt-2 min-h-20" /></fieldset><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
-      <div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="phone">رقم الهاتف</Label><Input id="phone" name="phone" type="tel" value={values.phone} onChange={update} required /></div><div><Label htmlFor="email">البريد الإلكتروني</Label><Input id="email" name="email" type="email" value={values.email} onChange={update} required /></div></div>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
