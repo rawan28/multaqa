@@ -93,6 +93,20 @@ export default async function(req: Request): Promise<Response> {
     } else {
       await service.ProviderPrivateData.create(privatePayload);
     }
+
+    try {
+      const notifyEmail = "rawanawadie@gmail.com";
+      const subject = "تسجيل أخصائي جديد في مُلتقى";
+      const body = `تم تسجيل أخصائي جديد في المنصة بانتظار التحقق:\n\nالاسم: ${profile.full_legal_name}\nالمهنة: ${profile.profession}\nرقم الترخيص: ${profile.license_number}\nالموقع: ${profile.location}\nالمجال: ${profile.specialty}\nسنوات الخبرة: ${profile.years_experience}\n\nرابط المراجعة: https://judicious-mind-connect-path.base44.app/admin/verifications`;
+      await base44.asServiceRole.integrations.Core.SendEmail({
+        to: notifyEmail,
+        subject,
+        body,
+      });
+    } catch (emailError) {
+      // Email send failure should not block the registration flow
+    }
+
     return Response.json({ status: "pending" });
   } catch (error) {
     return Response.json({ error: error.message || "Unable to submit verification" }, { status: 500 });
