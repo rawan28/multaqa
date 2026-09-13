@@ -12,17 +12,17 @@ export default function JobListings({ listings, loading, onPostClick }) {
         <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground"> لوحة إعلانات 
         </h2>
         <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">أعلن هنا عن فرص عمل للمعالجين والأخصائيين النفسيين في عيادات ومراكز مختلفة. 
+أعلن هنا عن توفر أيام تدريب للأخصائين النفسيين 
 أ</p>
 
         <div className="mt-8">
           {loading ? <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> : listings.length ? <div className="grid gap-4 md:grid-cols-2">
-              {listings.map((job) =>
-            <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
+              {listings.map((job) => <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
                   {job.image_url &&
-              <div className="mb-4 overflow-hidden rounded-md border">
+                <div className="mb-4 overflow-hidden rounded-md border">
                       <Image src={job.image_url} alt={`صورة إعلان ${job.title}`} className="h-44 w-full" fittingType="fill" />
                     </div>
-              }
+                }
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-heading text-lg font-semibold text-foreground">{job.title}</h3>
                     <span className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{typeLabels[job.employment_type] || job.employment_type}</span>
