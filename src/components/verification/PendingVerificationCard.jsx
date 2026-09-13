@@ -4,10 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Textarea } from "@/components/ui/textarea";
 import { Label } from "@/components/ui/label";
 
-const professionLabels = { psychologist: "أخصائي نفسي", social_worker: "أخصائي اجتماعي", psychiatrist: "طبيب نفسي", clinical_criminologist: "أخصائي علم الجريمة السريري", art_therapist: "معالج بالفنون" };
 const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
-const subSpecialtyLabels = { none: "بدون", psychotherapy_training: "تدريب العلاج النفسي", cbt: "CBT", psychodrama: "سيكودراما", family_therapy: "علاج أسري", other_training: "تدريب آخر" };
-const docTypeLabels = { license_card: "بطاقة الرخصة", diploma: "شهادة أكاديمية", equivalency_certificate: "شهادة معادلة", other: "أخرى" };
 
 function Field({ label, value }) {
   return <p className="flex gap-2"><span className="shrink-0 text-muted-foreground">{label}: </span><span className="text-foreground">{value || "—"}</span></p>;
@@ -32,8 +29,19 @@ export default function PendingVerificationCard({ profile, onReviewed }) {
     }
   };
 
-  const docs = profile.documents || [];
+  const academicTitles = profile.academic_titles || [];
+  const specialties = profile.specialties || [];
   const isPdf = (name) => (name || "").toLowerCase().endsWith(".pdf");
+
+  const DocLink = ({ name, signed_url }) => (
+    <div className="rounded-md border p-3">
+      {isPdf(name) ? (
+        <a href={signed_url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">عرض {name}</a>
+      ) : (
+        <a href={signed_url} target="_blank" rel="noreferrer"><img src={signed_url} alt={name} className="h-40 w-full rounded-md border object-cover" /></a>
+      )}
+    </div>
+  );
 
   return (
     <article className="rounded-lg border bg-card p-6 shadow-sm">
@@ -41,32 +49,44 @@ export default function PendingVerificationCard({ profile, onReviewed }) {
         <div className="space-y-2 text-sm">
           <h3 className="font-heading text-lg font-semibold text-foreground">{profile.full_legal_name}</h3>
           <Field label="رقم الهوية (ت.ز)" value={profile.teudat_zehut} />
-          <Field label="المهنة" value={professionLabels[profile.profession] || profile.profession} />
+          <Field label="عنوان المهنة" value={profile.profession_title} />
           <Field label="رقم الرخصة" value={profile.license_number} />
-          {profile.sub_specialty && profile.sub_specialty !== "none" && <Field label="التخصص الفرعي" value={`${subSpecialtyLabels[profile.sub_specialty] || profile.sub_specialty} (رخصة أساسية: ${profile.base_license_number})`} />}
+          <Field label="تأكيد الرخصة" value={profile.license_confirmed ? "مؤكد" : "غير مؤكد"} />
           <Field label="الموقع" value={profile.location} />
           <Field label="سنوات الخبرة" value={profile.years_experience} />
           <Field label="نوع الجلسات" value={modeLabels[profile.appointment_mode] || profile.appointment_mode} />
-          <Field label="مجال الممارسة" value={profile.specialty} />
+          {profile.professional_associations && <Field label="الجمعيات المهنية" value={profile.professional_associations} />}
           {profile.phone && <Field label="الهاتف" value={profile.phone} />}
           {profile.email && <Field label="البريد" value={profile.email} />}
           {profile.accessibility && <Field label="إتاحة المكان" value={profile.accessibility} />}
           {profile.bio && <p className="pt-2 text-foreground">{profile.bio}</p>}
         </div>
-        <div>
-          <h4 className="mb-3 text-sm font-semibold text-foreground">الوثائق المرفقة (آمنة)</h4>
-          <div className="grid gap-3">
-            {docs.map((doc, i) => (
-              <div key={i} className="rounded-md border p-3">
-                <p className="mb-2 text-xs font-medium text-primary">{docTypeLabels[doc.type] || doc.type}</p>
-                {isPdf(doc.name) ? (
-                  <a href={doc.signed_url} target="_blank" rel="noreferrer" className="text-sm text-primary underline">عرض {doc.name}</a>
-                ) : (
-                  <a href={doc.signed_url} target="_blank" rel="noreferrer"><img src={doc.signed_url} alt={doc.name} className="h-40 w-full rounded-md border object-cover" /></a>
-                )}
-              </div>
-            ))}
-            {!docs.length && <p className="text-sm text-muted-foreground">لا توجد وثائق مرفقة.</p>}
+        <div className="space-y-5">
+          <div>
+            <h4 className="mb-2 text-sm font-semibold text-foreground">الألقاب الأكاديمية وملفات الإثبات</h4>
+            <div className="grid gap-3">
+              {academicTitles.map((t, i) => (
+                <div key={i} className="rounded-md border p-3">
+                  <p className="mb-2 text-xs font-medium text-primary">{t.title}</p>
+                  <DocLink name={t.document_name} signed_url={t.signed_url} />
+                </div>
+              ))}
+              {!academicTitles.length && <p className="text-sm text-muted-foreground">لا توجد ألقاب أكاديمية.</p>}
+            </div>
+          </div>
+          <div>
+            <h4 className="mb-2 text-sm font-semibold text-foreground">مجالات التخصص وملفات الإثبات</h4>
+            <div className="grid gap-3">
+              {specialties.map((s, i) => (
+                <div key={i} className="rounded-md border p-3">
+                  <p className="mb-2 text-xs font-medium text-primary">{s.name}</p>
+                  <div className="grid gap-2">
+                    {s.documents.map((d, di) => <DocLink key={di} name={d.name} signed_url={d.signed_url} />)}
+                  </div>
+                </div>
+              ))}
+              {!specialties.length && <p className="text-sm text-muted-foreground">لا توجد مجالات تخصص.</p>}
+            </div>
           </div>
         </div>
       </div>

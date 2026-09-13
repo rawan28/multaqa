@@ -16,27 +16,66 @@
         "other"
       ]
     },
-    "profession": {
-      "type": "string",
-      "enum": [
-        "psychologist",
-        "social_worker",
-        "psychiatrist",
-        "clinical_criminologist",
-        "art_therapist"
-      ]
-    },
-    "academic_degree": {
-      "type": "string",
-      "enum": [
-        "bachelor",
-        "master",
-        "phd",
-        "board_specialty"
-      ]
-    },
-    "second_profession_name": {
+    "profession_title": {
       "type": "string"
+    },
+    "academic_titles": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "document_uri": {
+            "type": "string"
+          },
+          "document_name": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "title",
+          "document_uri"
+        ]
+      }
+    },
+    "specialties": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "documents": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "properties": {
+                "uri": {
+                  "type": "string"
+                },
+                "name": {
+                  "type": "string"
+                }
+              },
+              "required": [
+                "uri",
+                "name"
+              ]
+            }
+          }
+        },
+        "required": [
+          "name",
+          "documents"
+        ]
+      }
+    },
+    "license_confirmed": {
+      "type": "boolean",
+      "default": false
     },
     "provider_user_id": {
       "type": "string"
@@ -63,12 +102,6 @@
     "rejection_reason": {
       "type": "string"
     },
-    "base_license_number": {
-      "type": "string"
-    },
-    "sub_specialty": {
-      "type": "string"
-    },
     "location": {
       "type": "string"
     },
@@ -83,9 +116,6 @@
         "in_person",
         "both"
       ]
-    },
-    "specialty": {
-      "type": "string"
     },
     "license_number": {
       "type": "string"
@@ -144,15 +174,14 @@
   "required": [
     "full_name",
     "full_legal_name",
-    "profession",
+    "profession_title",
     "license_number",
     "verification_status",
     "provider_user_id",
     "is_active",
     "location",
     "years_experience",
-    "appointment_mode",
-    "specialty"
+    "appointment_mode"
   ],
   "rls": {
     "read": {

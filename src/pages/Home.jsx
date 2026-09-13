@@ -28,7 +28,7 @@ export default function Home() {
   const loadJobs = async () => {setJobsLoading(true);setJobs(await base44.entities.JobListing.list("-created_date"));setJobsLoading(false);};
   useEffect(() => {loadProfiles();loadJobs();}, []);
   const locations = useMemo(() => Array.from(new Set(professionals.filter((p) => p.is_active && p.location).map((p) => p.location))).sort(), [professionals]);
-  const matches = useMemo(() => professionals.filter((item) => item.verification_status === "verified" && (!query || item.full_name.toLowerCase().includes(query.toLowerCase())) && (!specialty || item.specialty === specialty) && (!location || item.location === location) && (!mode || item.appointment_mode === mode || item.appointment_mode === "both")), [professionals, query, specialty, location, mode]);
+  const matches = useMemo(() => professionals.filter((item) => item.verification_status === "verified" && (!query || item.full_name.toLowerCase().includes(query.toLowerCase())) && (!specialty || (item.specialties?.some((s) => (s.name || "").toLowerCase().includes(specialty.toLowerCase())) || (item.profession_title || "").toLowerCase().includes(specialty.toLowerCase()))) && (!location || item.location === location) && (!mode || item.appointment_mode === mode || item.appointment_mode === "both")), [professionals, query, specialty, location, mode]);
   const hasFilters = query || specialty || location || mode;
   const resetFilters = () => {setQuery("");setSpecialty("");setLocation("");setMode("");};
   const handleLogout = async () => { await base44.auth.logout(); };

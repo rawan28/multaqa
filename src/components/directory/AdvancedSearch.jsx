@@ -33,15 +33,14 @@ export default function AdvancedSearch({ query, setQuery, specialty, setSpecialt
       </div>
       <div className="mt-3 grid gap-3 sm:grid-cols-3">
         <div>
-          <label htmlFor="filter-specialty" className="mb-1.5 block text-xs font-medium text-muted-foreground">التخصص</label>
-          <select
+          <label htmlFor="filter-specialty" className="mb-1.5 block text-xs font-medium text-muted-foreground">بحث عن التخصص</label>
+          <input
             id="filter-specialty"
             value={specialty}
             onChange={(event) => setSpecialty(event.target.value)}
+            placeholder="مثال: CBT، تربوي"
             className="h-11 w-full rounded-md border bg-background px-3 text-sm"
-          >
-            {specialtyOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
-          </select>
+          />
         </div>
         <div>
           <label htmlFor="filter-location" className="mb-1.5 block text-xs font-medium text-muted-foreground">الموقع الجغرافي</label>

@@ -4,45 +4,32 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Textarea } from "@/components/ui/textarea";
 import ProfessionalPhotoUpload from "@/components/directory/ProfessionalPhotoUpload";
-import SecureDocumentUpload from "@/components/directory/SecureDocumentUpload";
+import AcademicTitlesInput from "@/components/directory/AcademicTitlesInput";
+import SpecialtiesInput from "@/components/directory/SpecialtiesInput";
 import { isValidTeudatZehut } from "@/lib/teudatZehut";
 
-const professionOptions = [
-{ value: "psychologist", label: "أخصائي نفسي — פסיכולוג" },
-{ value: "social_worker", label: "أخصائي اجتماعي — עובד סוציאלי" },
-{ value: "psychiatrist", label: "طبيب نفسي — פסיכיאטר" },
-{ value: "clinical_criminologist", label: "أخصائي علم الجريمة السريري — קרימינולוג קליני" },
-{ value: "art_therapist", label: "معالج بالفنون — מטפל באמנות" }];
-
-const primaryProfessions = ["psychologist", "social_worker", "psychiatrist"];
-const subSpecialtyOptions = [
-{ value: "none", label: "بدون تدريب إضافي" },
-{ value: "psychotherapy_training", label: "تدريب العلاج النفسي بعد الجامعي" },
-{ value: "cbt", label: "العلاج المعرفي السلوكي (CBT)" },
-{ value: "psychodrama", label: "السيكودراما" },
-{ value: "family_therapy", label: "العلاج الأسري" },
-{ value: "other_training", label: "تدريب آخر معتمد" }];
-
-const specialtyOptions = [
-{ value: "clinical_psychology", label: "علم النفس السريري" },
-{ value: "psychotherapy", label: "العلاج النفسي" },
-{ value: "family_therapy", label: "العلاج الأسري" },
-{ value: "couples_therapy", label: "العلاج الزوجي" },
-{ value: "child_therapy", label: "علاج الأطفال واليافعين" },
-{ value: "nlp", label: "البرمجة اللغوية العصبية" },
-{ value: "other", label: "مجال آخر" }];
+const genderOptions = [
+  { value: "male", label: "ذكر — זכר" },
+  { value: "female", label: "أنثى — נקבה" },
+  { value: "other", label: "آخر — אחר" }];
 
 const workDays = [["sunday", "الأحد"], ["monday", "الاثنين"], ["tuesday", "الثلاثاء"], ["wednesday", "الأربعاء"], ["thursday", "الخميس"], ["friday", "الجمعة"], ["saturday", "السبت"]];
 
-const genderOptions = [
-{ value: "male", label: "ذكر — זכר" },
-{ value: "female", label: "أنثى — נקבה" },
-{ value: "other", label: "آخر — אחר" }];
-const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   academic_degree: "bachelor", has_second_profession: false, second_profession_name: "", accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
+const initialValues = {
+  full_legal_name: "", teudat_zehut: "", gender: "",
+  profession_title: "",
+  license_confirmed: false, license_number: "",
+  is_association_member: false, professional_associations: "",
+  location: "", years_experience: "", appointment_mode: "both",
+  work_days: [], accepting_new_patients: true,
+  profile_image_url: "", website: "", accessibility: "", directions: "",
+  phone: "", email: "", bio: "",
+};
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
-  const [documents, setDocuments] = useState([]);
+  const [academicTitles, setAcademicTitles] = useState([{ title: "", document_uri: "", document_name: "" }]);
+  const [specialties, setSpecialties] = useState([{ name: "", documents: [] }]);
   const [saving, setSaving] = useState(false);
   const [error, setError] = useState("");
   const [message, setMessage] = useState("");
@@ -53,21 +40,36 @@ export default function ProfessionalForm({ onSubmit }) {
   const submit = async (event) => {
     event.preventDefault();
     setError("");
-    if (!isValidTeudatZehut(values.teudat_zehut)) {setError("رقم الهوية الإسرائيلية (ت.ز) غير صالح. يُرجى التحقق من الرقم.");return;}
-    if (values.sub_specialty !== "none") {
-      if (!primaryProfessions.includes(values.profession)) {setError("اختيار تخصص فرعي / تدريب علاج نفسي يتطلب مهنة أساسية معتمدة (أخصائي نفسي، أخصائي اجتماعي، أو طبيب نفسي).");return;}
-      if (!values.base_license_number.trim()) {setError("يرجى إدخال رقم رخصة المهنة الأساسية المعتمدة.");return;}
+    if (!isValidTeudatZehut(values.teudat_zehut)) { setError("رقم الهوية الإسرائيلية (ت.ز) غير صالح. يُرجى التحقق من الرقم."); return; }
+    const filledTitles = academicTitles.filter((t) => t.title.trim() || t.document_uri);
+    if (!filledTitles.length || !filledTitles[0].title.trim() || !filledTitles[0].document_uri) { setError("يرجى إدخال اللقب الأكاديمي الأول وإرفاق ملف إثبات."); return; }
+    for (const t of filledTitles) {
+      if (!t.title.trim() || !t.document_uri) { setError("كل لقب أكاديمي يتطلب اسمًا وملف إثبات."); return; }
     }
-    if (values.has_second_profession && !values.second_profession_name.trim()) {setError("يرجى إدخال اسم اللقب/المهنة الثانية.");return;}
-    const hasLicense = documents.some((d) => d.type === "license_card");
-    const hasDiploma = documents.some((d) => d.type === "diploma");
-    if (!hasLicense || !hasDiploma) {setError("يرجى رفع بطاقة الرخصة وشهادة أكاديمية واحدة على الأقل.");return;}
+    if (!values.profession_title.trim()) { setError("يرجى إدخال عنوان المهنة."); return; }
+    const filledSpecialties = specialties.filter((s) => s.name.trim() || s.documents.length);
+    if (!filledSpecialties.length) { setError("يرجى إضافة مجال تخصص واحد على الأقل مع ملف إثبات."); return; }
+    for (const s of filledSpecialties) {
+      if (!s.name.trim() || !s.documents.length) { setError("كل مجال تخصص يتطلب اسمًا وملف إثبات واحد على الأقل."); return; }
+    }
+    if (!values.license_confirmed) { setError("يرجى تأكيد وجود رخصة مهنية سارية."); return; }
+    if (!values.license_number.trim()) { setError("يرجى إدخال رقم الرخصة المهنية."); return; }
+    if (values.is_association_member && !values.professional_associations.trim()) { setError("يرجى ذكر اسم الجمعية/الجمعيات التي أنت عضو فيها."); return; }
     setSaving(true);
     try {
-      const result = await onSubmit({ profile: { ...values, years_experience: Number(values.years_experience) }, documents });
+      const result = await onSubmit({
+        profile: {
+          ...values,
+          years_experience: Number(values.years_experience),
+          academic_titles: filledTitles.map((t) => ({ title: t.title.trim(), document_uri: t.document_uri, document_name: t.document_name })),
+          specialties: filledSpecialties.map((s) => ({ name: s.name.trim(), documents: s.documents.map((d) => ({ uri: d.uri, name: d.name })) })),
+          professional_associations: values.is_association_member ? values.professional_associations.trim() : "",
+        },
+      });
       setMessage(result.status === "approved" ? "تم تفعيل ملفك المهني." : "تم إرسال ملفك للتحقق والمراجعة. لن يظهر في الدليل حتى تتم الموافقة عليه.");
       setValues(initialValues);
-      setDocuments([]);
+      setAcademicTitles([{ title: "", document_uri: "", document_name: "" }]);
+      setSpecialties([{ name: "", documents: [] }]);
     } catch {
       setError("تعذر إرسال الطلب. حاول مرة أخرى.");
     } finally {
@@ -79,43 +81,40 @@ export default function ProfessionalForm({ onSubmit }) {
     <form onSubmit={submit} className="grid gap-5">
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
-      <div><Label htmlFor="gender">الجنس
-</Label>
+      <div><Label htmlFor="gender">الجنس</Label>
         <select id="gender" name="gender" value={values.gender} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
           <option value="" disabled>يرجى الاختيار — נא לבחור</option>
           {genderOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </div>
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div><Label htmlFor="teudat_zehut">رقم الهوية 
-</Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
-        <div><Label htmlFor="profession">المهنة الأساسية</Label>
-          <select id="profession" name="profession" value={values.profession} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
-            {professionOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
-        </div>
-      </div>
-      <div><Label htmlFor="academic_degree">نوع الشهادة الأكاديمية</Label>
-        <select id="academic_degree" name="academic_degree" value={values.academic_degree} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
-          <option value="bachelor">بكالوريوس — תואר ראשון</option>
-          <option value="master">ماجستير — תואר שני</option>
-          <option value="phd">دكتوراه — דוקטורט</option>
-          <option value="board_specialty">تخصص/بورد — מומחה/בורד</option>
-        </select>
-      </div>
-      <div><Label htmlFor="license_number">رقم ترخيص الممارس</Label><Input id="license_number" name="license_number" value={values.license_number} onChange={update} required /></div>
-      <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.has_second_profession} onChange={(event) => setValues({ ...values, has_second_profession: event.target.checked })} />لديّ لقب/مهنة ثانية في مجال آخر</label>
-      {values.has_second_profession && <div><Label htmlFor="second_profession_name">اسم اللقب/المهنة الثانية</Label><Input id="second_profession_name" name="second_profession_name" value={values.second_profession_name} onChange={update} required /></div>}
-      <div className="grid gap-5 sm:grid-cols-2">
-        <div><Label htmlFor="sub_specialty">تخصص فرعي / تدريب علاج نفسي بعد الجامعي</Label>
-          <select id="sub_specialty" name="sub_specialty" value={values.sub_specialty} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
-            {subSpecialtyOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-          </select>
-        </div>
-        {values.sub_specialty !== "none" && <div><Label htmlFor="base_license_number">رقم رخصة المهنة الأساسية</Label><Input id="base_license_number" name="base_license_number" value={values.base_license_number} onChange={update} required /></div>}
-      </div>
-      {values.sub_specialty !== "none" && !primaryProfessions.includes(values.profession) && <p className="rounded-md bg-destructive/10 p-3 text-sm text-destructive" role="alert">التخصص الفرعي متاح فقط لأخصائي نفسي، أخصائي اجتماعي، أو طبيب نفسي.</p>}
-      <SecureDocumentUpload documents={documents} onChange={setDocuments} />
+      <div><Label htmlFor="teudat_zehut">رقم الهوية</Label><Input id="teudat_zehut" name="teudat_zehut" value={values.teudat_zehut} onChange={update} inputMode="numeric" pattern="\d{5,9}" required /></div>
+
+      <fieldset className="grid gap-3 rounded-lg border bg-card p-5">
+        <legend className="px-1 text-sm font-semibold text-foreground">الألقاب الأكاديمية</legend>
+        <p className="text-xs text-muted-foreground">أدخل ألقابك الأكاديمية (حتى ثلاثة) مع ملف إثبات لكل لقب. اللقب الأول إجباري.</p>
+        <AcademicTitlesInput value={academicTitles} onChange={setAcademicTitles} />
+      </fieldset>
+
+      <div><Label htmlFor="profession_title">عنوان المهنة</Label><Input id="profession_title" name="profession_title" value={values.profession_title} onChange={update} placeholder="اكتب عنوان مهنتك بنفسك، مثال: أخصائي نفسي سريري" required /></div>
+
+      <fieldset className="grid gap-3 rounded-lg border bg-card p-5">
+        <legend className="px-1 text-sm font-semibold text-foreground">مجالات التخصص</legend>
+        <p className="text-xs text-muted-foreground">أضف مجالات تخصصك، كل مجال مع ملفات إثبات (شهادات). مطلوب مجال واحد على الأقل.</p>
+        <SpecialtiesInput value={specialties} onChange={setSpecialties} />
+      </fieldset>
+
+      <fieldset className="grid gap-3 rounded-lg border bg-card p-5">
+        <legend className="px-1 text-sm font-semibold text-foreground">الرخصة المهنية</legend>
+        <label className="flex items-start gap-2 text-sm font-medium"><input type="checkbox" checked={values.license_confirmed} onChange={(event) => setValues({ ...values, license_confirmed: event.target.checked })} className="mt-1" /><span>أؤكد وجود رخصة مهنية سارية وأتحمل مسؤولية صحة المعلومات.</span></label>
+        <div><Label htmlFor="license_number">رقم الرخصة المهنية</Label><Input id="license_number" name="license_number" value={values.license_number} onChange={update} required /></div>
+      </fieldset>
+
+      <fieldset className="grid gap-3 rounded-lg border bg-card p-5">
+        <legend className="px-1 text-sm font-semibold text-foreground">العضوية في جمعيات مهنية</legend>
+        <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.is_association_member} onChange={(event) => setValues({ ...values, is_association_member: event.target.checked })} />أنا عضو مسجّل في جمعية مهنية</label>
+        {values.is_association_member && <div><Label htmlFor="professional_associations">اسم الجمعية/الجمعيات</Label><Textarea id="professional_associations" name="professional_associations" value={values.professional_associations} onChange={update} className="mt-2 min-h-20" placeholder="مثال: جمعية العلاج النفسي (הסתדרות הפסיכותרפיסטים)" required /></div>}
+      </fieldset>
+
       <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
       <div className="grid gap-5 sm:grid-cols-2">
         <div><Label htmlFor="years_experience">سنوات الخبرة</Label><Input id="years_experience" name="years_experience" type="number" min="0" value={values.years_experience} onChange={update} required /></div>
@@ -126,17 +125,13 @@ export default function ProfessionalForm({ onSubmit }) {
         </div>
       </div>
       {values.appointment_mode !== "online" && <div className="grid gap-5"><div><Label htmlFor="accessibility">إتاحة المكان</Label><Input id="accessibility" name="accessibility" value={values.accessibility} onChange={update} required /></div><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
-      <div><Label htmlFor="specialty">مجال الممارسة</Label>
-        <select id="specialty" name="specialty" value={values.specialty} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
-          {specialtyOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
-        </select>
-      </div>
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
       <div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="phone">رقم الهاتف</Label><Input id="phone" name="phone" type="tel" value={values.phone} onChange={update} required /></div><div><Label htmlFor="email">البريد الإلكتروني</Label><Input id="email" name="email" type="email" value={values.email} onChange={update} required /></div></div>
       <div><Label htmlFor="bio">نبذة عن ممارستك</Label><Textarea id="bio" name="bio" value={values.bio} onChange={update} className="mt-2 min-h-28" /></div>
-      <div><Label htmlFor="professional_associations">العضوية في جمعيات مهنية</Label><Textarea id="professional_associations" name="professional_associations" value={values.professional_associations} onChange={update} className="mt-2 min-h-20" placeholder="اذكر الجمعيات المهنية التي أنت عضو فيها (اختياري)" /></div>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}
       <Button type="submit" disabled={saving} className="w-full">{saving ? "جارٍ إرسال الطلب…" : "إرسال الملف للتحقق"}</Button>
-    </form>);}
+    </form>
+  );
+}

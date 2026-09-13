@@ -10,18 +10,33 @@ export default async function(req: Request): Promise<Response> {
     const profiles = await service.ProfessionalProfile.filter({ verification_status: "pending_verification" }, "-created_date");
     const core = base44.asServiceRole.integrations.Core;
 
+    const sign = async (uri: string) => {
+      try {
+        const { signed_url } = await core.CreateFileSignedUrl({ file_uri: uri, expires_in: 600 });
+        return signed_url;
+      } catch {
+        return "";
+      }
+    };
+
     const result = await Promise.all(profiles.map(async (p: any) => {
       const privateData = (await service.ProviderPrivateData.filter({ provider_user_id: p.provider_user_id }, "-created_date", 1))[0];
-      const rawDocs = privateData?.documents || [];
-      const documents = await Promise.all(rawDocs.map(async (d: any) => {
-        try {
-          const { signed_url } = await core.CreateFileSignedUrl({ file_uri: d.uri, expires_in: 600 });
-          return { uri: d.uri, name: d.name, type: d.type, signed_url };
-        } catch {
-          return { uri: d.uri, name: d.name, type: d.type, signed_url: "" };
-        }
-      }));
-      return { ...p, teudat_zehut: privateData?.teudat_zehut || "", documents };
+
+      const academic_titles = await Promise.all((p.academic_titles || []).map(async (t: any) => ({
+        title: t.title,
+        document_name: t.document_name || "",
+        signed_url: await sign(t.document_uri),
+      })));
+
+      const specialties = await Promise.all((p.specialties || []).map(async (s: any) => ({
+        name: s.name,
+        documents: await Promise.all((s.documents || []).map(async (d: any) => ({
+          name: d.name,
+          signed_url: await sign(d.uri),
+        }))),
+      })));
+
+      return { ...p, teudat_zehut: privateData?.teudat_zehut || "", academic_titles, specialties };
     }));
 
     return Response.json({ profiles: result });
