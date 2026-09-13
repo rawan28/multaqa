@@ -5,13 +5,19 @@ import { Image } from "@/components/ui/image";
 const modeLabels = { online: "عبر الإنترنت", in_person: "حضوري", both: "عبر الإنترنت وحضوري" };
 const specialtyLabels = { psychotherapy: "العلاج النفسي", clinical_psychology: "علم النفس السريري", nlp: "البرمجة اللغوية العصبية", family_therapy: "العلاج الأسري", couples_therapy: "العلاج الزوجي", child_therapy: "علاج الأطفال واليافعين", other: "مجال آخر" };
 const workDayLabels = { sunday: "الأحد", monday: "الاثنين", tuesday: "الثلاثاء", wednesday: "الأربعاء", thursday: "الخميس", friday: "الجمعة", saturday: "السبت" };
+const professionLabels = { psychologist: "علم نفس", social_worker: "خدمة اجتماعية", psychiatrist: "طب نفسي", clinical_criminologist: "علم الجريمة السريري", art_therapist: "العلاج بالفن" };
+const subSpecialtyLabels = { none: "", psychotherapy_training: "تدريب على العلاج النفسي", cbt: "العلاج المعرفي السلوكي", psychodrama: "السيكودراما", family_therapy: "العلاج الأسري", other_training: "تدريب آخر" };
+const genderLabels = { male: "ذكر", female: "أنثى", other: "آخر" };
 
 export default function ProfessionalCard({ professional }) {
   return (
     <article className="rounded-lg border bg-card p-6 shadow-sm">
       {professional.profile_image_url ? <Image src={professional.profile_image_url} alt={`صورة ${professional.full_name}`} className="mb-5 h-16 w-16 overflow-hidden rounded-full" /> : <div className="mb-5 flex h-12 w-12 items-center justify-center rounded-full bg-secondary font-heading text-lg font-semibold text-secondary-foreground">{professional.full_name?.slice(0, 1).toUpperCase()}</div>}
       <h3 className="font-heading text-xl font-semibold text-foreground">{professional.full_name}</h3>
+      {professional.gender && genderLabels[professional.gender] && <p className="mt-1 text-xs text-muted-foreground">{genderLabels[professional.gender]}</p>}
+      {professional.profession && <p className="mt-1 text-sm font-medium text-foreground"><span className="text-muted-foreground">المجال: </span>{professionLabels[professional.profession] || professional.profession}</p>}
       {professional.specialty && <p className="mt-1 text-sm font-medium text-primary">{specialtyLabels[professional.specialty] || professional.specialty}</p>}
+      {professional.sub_specialty && professional.sub_specialty !== "none" && subSpecialtyLabels[professional.sub_specialty] && <p className="mt-1 text-sm text-muted-foreground"><span className="font-medium text-foreground">التخصص الفرعي: </span>{subSpecialtyLabels[professional.sub_specialty]}</p>}
       <div className="mt-3 flex flex-wrap gap-2">
         <span className={`inline-flex rounded-full px-3 py-1 text-xs font-medium ${professional.accepting_new_patients === false ? "bg-secondary text-secondary-foreground" : "bg-primary/10 text-primary"}`}>{professional.accepting_new_patients === false ? "لا أستقبل متوجهين جدد" : "أستقبل متوجهين جدد"}</span>
         {professional.offers_mentorship === true && <span className="inline-flex rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">أقدّم إشرافًا مهنيًا</span>}
