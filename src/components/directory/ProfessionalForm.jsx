@@ -9,9 +9,9 @@ import SpecialtiesInput from "@/components/directory/SpecialtiesInput";
 import { isValidTeudatZehut } from "@/lib/teudatZehut";
 
 const genderOptions = [
-  { value: "male", label: "ذكر — זכר" },
-  { value: "female", label: "أنثى — נקבה" },
-  { value: "other", label: "آخر — אחר" }];
+  { value: "male", label: "رجل" },
+  { value: "female", label: "امرأة" },
+  { value: "other", label: "آخر" }];
 
 const workDays = [["sunday", "الأحد"], ["monday", "الاثنين"], ["tuesday", "الثلاثاء"], ["wednesday", "الأربعاء"], ["thursday", "الخميس"], ["friday", "الجمعة"], ["saturday", "السبت"]];
 
@@ -81,9 +81,9 @@ export default function ProfessionalForm({ onSubmit }) {
     <form onSubmit={submit} className="grid gap-5">
       <ProfessionalPhotoUpload value={values.profile_image_url} onUpload={(profile_image_url) => setValues({ ...values, profile_image_url })} />
       <div><Label htmlFor="full_legal_name">الاسم القانوني الكامل</Label><Input id="full_legal_name" name="full_legal_name" value={values.full_legal_name} onChange={update} required /></div>
-      <div><Label htmlFor="gender">الجنس</Label>
+      <div><Label htmlFor="gender">النوع الاجتماعي</Label>
         <select id="gender" name="gender" value={values.gender} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
-          <option value="" disabled>يرجى الاختيار — נא לבחור</option>
+          <option value="" disabled>يرجى الاختيار</option>
           {genderOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
         </select>
       </div>

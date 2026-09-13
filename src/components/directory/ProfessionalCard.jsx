@@ -7,7 +7,7 @@ const specialtyLabels = { psychotherapy: "العلاج النفسي", clinical_p
 const workDayLabels = { sunday: "الأحد", monday: "الاثنين", tuesday: "الثلاثاء", wednesday: "الأربعاء", thursday: "الخميس", friday: "الجمعة", saturday: "السبت" };
 const professionLabels = { psychologist: "علم نفس", social_worker: "خدمة اجتماعية", psychiatrist: "طب نفسي", clinical_criminologist: "علم الجريمة السريري", art_therapist: "العلاج بالفن" };
 const subSpecialtyLabels = { none: "", psychotherapy_training: "تدريب على العلاج النفسي", cbt: "العلاج المعرفي السلوكي", psychodrama: "السيكودراما", family_therapy: "العلاج الأسري", other_training: "تدريب آخر" };
-const genderLabels = { male: "ذكر", female: "أنثى", other: "آخر" };
+const genderLabels = { male: "رجل", female: "امرأة", other: "آخر" };
 
 export default function ProfessionalCard({ professional }) {
   return (
