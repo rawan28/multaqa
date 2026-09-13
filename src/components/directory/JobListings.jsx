@@ -7,22 +7,22 @@ export default function JobListings({ listings, loading, onPostClick }) {
   return (
     <section id="jobs" className="bg-secondary">
       <div className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-sm font-medium text-primary">لوحة الوظائف</p>
+        <p className="text-sm font-medium text-primary">لوحة اعلانات </p>
         <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground">إعلانات وظائف</h2>
         <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">فرص عمل للمعالجين والأخصائيين النفسيين في عيادات ومراكز مختلفة.</p>
 
         <div className="mt-8">
-          {loading ? (
-            <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p>
-          ) : listings.length ? (
-            <div className="grid gap-4 md:grid-cols-2">
-              {listings.map((job) => (
-                <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
-                  {job.image_url && (
-                    <div className="mb-4 overflow-hidden rounded-md border">
+          {loading ?
+          <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> :
+          listings.length ?
+          <div className="grid gap-4 md:grid-cols-2">
+              {listings.map((job) =>
+            <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
+                  {job.image_url &&
+              <div className="mb-4 overflow-hidden rounded-md border">
                       <Image src={job.image_url} alt={`صورة إعلان ${job.title}`} className="h-44 w-full" fittingType="fill" />
                     </div>
-                  )}
+              }
                   <div className="flex items-start justify-between gap-3">
                     <h3 className="font-heading text-lg font-semibold text-foreground">{job.title}</h3>
                     <span className="shrink-0 rounded-full bg-primary/10 px-3 py-1 text-xs font-medium text-primary">{typeLabels[job.employment_type] || job.employment_type}</span>
@@ -37,11 +37,11 @@ export default function JobListings({ listings, loading, onPostClick }) {
                     <Mail className="h-4 w-4" aria-hidden="true" />تقديم على الوظيفة
                   </a>
                 </article>
-              ))}
-            </div>
-          ) : (
-            <p className="rounded-lg border border-dashed p-8 text-muted-foreground">لا توجد إعلانات وظائف حاليًا.</p>
-          )}
+            )}
+            </div> :
+
+          <p className="rounded-lg border border-dashed p-8 text-muted-foreground">لا توجد إعلانات وظائف حاليًا.</p>
+          }
         </div>
 
         <div className="mt-8">
@@ -50,6 +50,6 @@ export default function JobListings({ listings, loading, onPostClick }) {
           </button>
         </div>
       </div>
-    </section>
-  );
+    </section>);
+
 }
