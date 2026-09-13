@@ -7,7 +7,7 @@ export default function JobListings({ listings, loading, onPostClick }) {
   return (
     <section id="jobs" className="bg-secondary">
       <div className="mx-auto max-w-6xl px-5 py-12">
-        <p className="text-sm font-medium text-primary">لوحة الإعلانات
+        <p className="text-sm font-medium text-primary hidden">لوحة الإعلانات
 </p>
         <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground"> لوحة إعلانات 
         </h2>
