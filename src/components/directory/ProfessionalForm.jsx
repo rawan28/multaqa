@@ -38,7 +38,7 @@ const genderOptions = [
 { value: "male", label: "ذكر — זכר" },
 { value: "female", label: "أنثى — נקבה" },
 { value: "other", label: "آخر — אחר" }];
-const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   has_second_profession: false, second_profession_name: "", accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
+const initialValues = { full_legal_name: "", teudat_zehut: "", gender: "", profession: "psychologist", license_number: "", sub_specialty: "none", base_license_number: "", location: "", years_experience: "", appointment_mode: "both", specialty: "clinical_psychology", work_days: [],   academic_degree: "bachelor", has_second_profession: false, second_profession_name: "", accepting_new_patients: true, profile_image_url: "", website: "", accessibility: "", directions: "", phone: "", email: "", bio: "", professional_associations: "" };
 
 export default function ProfessionalForm({ onSubmit }) {
   const [values, setValues] = useState(initialValues);
@@ -94,6 +94,14 @@ export default function ProfessionalForm({ onSubmit }) {
             {professionOptions.map((o) => <option key={o.value} value={o.value}>{o.label}</option>)}
           </select>
         </div>
+      </div>
+      <div><Label htmlFor="academic_degree">نوع الشهادة الأكاديمية</Label>
+        <select id="academic_degree" name="academic_degree" value={values.academic_degree} onChange={update} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm" required>
+          <option value="bachelor">بكالوريوس — תואר ראשון</option>
+          <option value="master">ماجستير — תואר שני</option>
+          <option value="phd">دكتوراه — דוקטורט</option>
+          <option value="board_specialty">تخصص/بورد — מומחה/בורד</option>
+        </select>
       </div>
       <div><Label htmlFor="license_number">رقم ترخيص الممارس</Label><Input id="license_number" name="license_number" value={values.license_number} onChange={update} required /></div>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.has_second_profession} onChange={(event) => setValues({ ...values, has_second_profession: event.target.checked })} />لديّ لقب/مهنة ثانية في مجال آخر</label>

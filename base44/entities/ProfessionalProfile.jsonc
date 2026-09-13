@@ -26,6 +26,15 @@
         "art_therapist"
       ]
     },
+    "academic_degree": {
+      "type": "string",
+      "enum": [
+        "bachelor",
+        "master",
+        "phd",
+        "board_specialty"
+      ]
+    },
     "second_profession_name": {
       "type": "string"
     },
