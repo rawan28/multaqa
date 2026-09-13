@@ -22,7 +22,7 @@ const initialValues = {
   license_confirmed: false, license_number: "",
   is_association_member: false, professional_associations: "",
   location: "", years_experience: "", appointment_mode: "both",
-  work_days: [], accepting_new_patients: true,
+  work_days: [], min_age: "", max_age: "", accepting_new_patients: true,
   profile_image_url: "", website: "", accessibility: "", accessibility_notes: "", directions: "",
   phone: "", email: "", bio: "",
 };
@@ -69,6 +69,8 @@ export default function ProfessionalForm({ onSubmit }) {
           ...rest,
           accessibility: [values.accessibility, accessibility_notes].filter(Boolean).join("، "),
           years_experience: Number(values.years_experience),
+          min_age: values.min_age === "" ? null : Number(values.min_age),
+          max_age: values.max_age === "" ? null : Number(values.max_age),
           academic_titles: filledTitles.map((t) => ({ title: t.title.trim(), document_uri: t.document_uri, document_name: t.document_name })),
           specialties: filledSpecialties.map((s) => ({ name: s.name.trim(), documents: s.documents.map((d) => ({ uri: d.uri, name: d.name })) })),
           professional_associations: values.is_association_member ? values.professional_associations.trim() : "",
@@ -136,6 +138,7 @@ export default function ProfessionalForm({ onSubmit }) {
       </div>
       {values.appointment_mode !== "online" && <div className="grid gap-5"><fieldset><legend className="text-sm font-medium">إتاحة المكان</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{accessibilityOptions.map((o) => <label key={o} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={values.accessibility.split("، ").includes(o)} onChange={() => toggleAccessibility(o)} />{o}</label>)}</div><Label htmlFor="accessibility_notes" className="mt-3 block">ملاحظات إضافية عن الإتاحة</Label><Textarea id="accessibility_notes" name="accessibility_notes" value={values.accessibility_notes} onChange={update} className="mt-2 min-h-20" /></fieldset><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
       <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
+      <fieldset className="grid gap-3 rounded-lg border bg-card p-5"><legend className="px-1 text-sm font-semibold text-foreground">الأجيال التي أعمل معها</legend><p className="text-xs text-muted-foreground">حدد الفئة العمرية التي تستقبلها في عيادتك.</p><div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="min_age">من العمر (بالسنوات)</Label><Input id="min_age" name="min_age" type="number" min="0" max="120" value={values.min_age} onChange={update} /></div><div><Label htmlFor="max_age">إلى العمر (بالسنوات)</Label><Input id="max_age" name="max_age" type="number" min="0" max="120" value={values.max_age} onChange={update} /></div></div></fieldset>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}
       {message && <p className="text-sm text-primary" aria-live="polite" role="status">{message}</p>}

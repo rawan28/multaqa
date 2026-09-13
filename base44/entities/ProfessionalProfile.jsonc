@@ -135,6 +135,16 @@
         ]
       }
     },
+    "min_age": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 120
+    },
+    "max_age": {
+      "type": "number",
+      "minimum": 0,
+      "maximum": 120
+    },
     "accepting_new_patients": {
       "type": "boolean",
       "default": true
