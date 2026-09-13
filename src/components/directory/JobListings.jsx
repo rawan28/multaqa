@@ -11,11 +11,11 @@ export default function JobListings({ listings, loading, onPostClick }) {
 </p>
         <h2 className="mt-2 font-heading text-3xl font-semibold text-foreground"> لوحة إعلانات 
         </h2>
-        <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">فرص عمل للمعالجين والأخصائيين النفسيين في عيادات ومراكز مختلفة.</p>
+        <p className="mt-3 max-w-2xl leading-7 text-muted-foreground">أعلن هنا عن فرص عمل للمعالجين والأخصائيين النفسيين في عيادات ومراكز مختلفة. 
+أ</p>
 
         <div className="mt-8">
-          {loading ? <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> : listings.length ?
-          <div className="grid gap-4 md:grid-cols-2">
+          {loading ? <p className="text-muted-foreground">جارٍ تحميل الإعلانات…</p> : listings.length ? <div className="grid gap-4 md:grid-cols-2">
               {listings.map((job) =>
             <article key={job.id} className="rounded-lg border bg-card p-6 shadow-sm">
                   {job.image_url &&
