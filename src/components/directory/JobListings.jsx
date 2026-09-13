@@ -5,7 +5,7 @@ const typeLabels = { full_time: "دوام كامل", part_time: "دوام جزئ
 
 export default function JobListings({ listings, loading, onPostClick }) {
   return (
-    <section id="jobs" className="bg-secondary">
+    <section id="jobs" className="bg-[#f8d68c]">
       <div className="mx-auto max-w-6xl px-5 py-12">
         
         
