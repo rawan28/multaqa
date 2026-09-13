@@ -40,7 +40,7 @@ export default function JobListings({ listings, loading, onPostClick }) {
             )}
             </div> :
 
-          <p className="rounded-lg border border-dashed p-8 text-muted-foreground">لا توجد إعلانات وظائف حاليًا.</p>
+          <p className="rounded-lg border border-dashed p-8 text-muted-foreground">لا توجد إعلانات حاليًا.</p>
           }
         </div>
 
