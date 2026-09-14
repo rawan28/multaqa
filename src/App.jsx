@@ -19,6 +19,7 @@ import PractitionerDashboard from './pages/PractitionerDashboard';
 import Accessibility from './pages/Accessibility';
 import ProviderTerms from './pages/ProviderTerms';
 import SkipLink from './components/SkipLink';
+import ProfessionalProfile from './pages/ProfessionalProfile';
 // Add page imports here
 
 const AuthenticatedApp = () => {
@@ -55,6 +56,7 @@ const AuthenticatedApp = () => {
       <Route path="/terms" element={<Terms />} />
       <Route path="/join" element={<JoinDirectory />} />
       <Route path="/dashboard" element={<PractitionerDashboard />} />
+      <Route path="/professional/:id" element={<ProfessionalProfile />} />
       <Route path="/accessibility" element={<Accessibility />} />
       <Route path="/provider-terms" element={<ProviderTerms />} />
       <Route path="/login" element={<Login />} />

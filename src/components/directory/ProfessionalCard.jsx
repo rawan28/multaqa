@@ -1,3 +1,4 @@
+import { Link } from "react-router-dom";
 import { MapPin, Monitor, BriefcaseBusiness, Phone, Mail } from "lucide-react";
 import ContactPractitioner from "@/components/directory/ContactPractitioner";
 import { Image } from "@/components/ui/image";
@@ -34,6 +35,7 @@ export default function ProfessionalCard({ professional }) {
       </div>
       {professional.bio && <p className="mt-5 line-clamp-4 text-sm leading-6 text-foreground">{professional.bio}</p>}
       {professional.email && <ContactPractitioner professionalId={professional.id} />}
+      <Link to={`/professional/${professional.id}`} className="mt-5 inline-flex items-center gap-1 text-sm font-medium text-primary underline">عرض الملف الكامل</Link>
       <p className="mt-5 border-t pt-4 text-xs text-muted-foreground">رقم الترخيص: {professional.license_number}</p>
     </article>
   );
