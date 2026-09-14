@@ -21,26 +21,31 @@ const modeOptions = [
 export default function AdvancedSearch({ query, setQuery, specialty, setSpecialty, location, setLocation, mode, setMode, locations, onReset, hasFilters }) {
   return (
     <div className="mt-6 rounded-lg border bg-card p-5 shadow-sm">
-      <div className="relative">
-        <Search className="absolute right-4 top-3.5 h-5 w-5 text-muted-foreground" aria-hidden="true" />
-        <input
-          value={query}
-          onChange={(event) => setQuery(event.target.value)}
-          placeholder="ابحث بالاسم"
-          className="h-11 w-full rounded-md border bg-background pr-12 pl-4 text-base"
-          aria-label="ابحث بالاسم"
-        />
+      <div>
+        <label htmlFor="filter-search" className="mb-1.5 block text-xs font-medium text-muted-foreground">ابحث عن الاسم</label>
+        <div className="relative">
+          <Search className="absolute right-4 top-3.5 h-5 w-5 text-muted-foreground" aria-hidden="true" />
+          <input
+            id="filter-search"
+            value={query}
+            onChange={(event) => setQuery(event.target.value)}
+            placeholder="مثال: CBT، تربوي"
+            className="h-11 w-full rounded-md border bg-background pr-12 pl-4 text-base"
+            aria-label="ابحث عن الاسم"
+          />
+        </div>
       </div>
       <div className="mt-3 grid gap-3 sm:grid-cols-3">
         <div>
           <label htmlFor="filter-specialty" className="mb-1.5 block text-xs font-medium text-muted-foreground">بحث عن التخصص</label>
-          <input
+          <select
             id="filter-specialty"
             value={specialty}
             onChange={(event) => setSpecialty(event.target.value)}
-            placeholder="مثال: CBT، تربوي"
             className="h-11 w-full rounded-md border bg-background px-3 text-sm"
-          />
+          >
+            {specialtyOptions.map((opt) => <option key={opt.value} value={opt.value}>{opt.label}</option>)}
+          </select>
         </div>
         <div>
           <label htmlFor="filter-location" className="mb-1.5 block text-xs font-medium text-muted-foreground">الموقع الجغرافي</label>
