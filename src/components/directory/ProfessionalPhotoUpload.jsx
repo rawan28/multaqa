@@ -10,7 +10,7 @@ export default function ProfessionalPhotoUpload({ value, onUpload }) {
     const file = event.target.files?.[0];
     if (!file) return;
     setUploading(true); setError("");
-    try { const { file_url } = await base44.integrations.Core.UploadFile({ file }); onUpload(file_url); }
+    try { const { file_url } = await base44.integrations.Core.UploadPublicFile({ file }); onUpload(file_url); }
     catch { setError("تعذر رفع الصورة. حاول مرة أخرى."); }
     finally { setUploading(false); }
   };

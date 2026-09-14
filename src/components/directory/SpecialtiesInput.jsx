@@ -4,9 +4,7 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
 import { Plus } from "lucide-react";
-
-const MAX_SIZE = 10 * 1024 * 1024;
-const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+import { validateFile } from "@/lib/fileUpload";
 
 export default function SpecialtiesInput({ value, onChange }) {
   const [uploadingIndex, setUploadingIndex] = useState(null);
@@ -21,8 +19,8 @@ export default function SpecialtiesInput({ value, onChange }) {
     if (!files.length) return;
     setError("");
     for (const file of files) {
-      if (!allowedTypes.includes(file.type)) { setError("الصيغ المسموح بها: PDF، JPEG، PNG فقط."); event.target.value = ""; return; }
-      if (file.size > MAX_SIZE) { setError("الحد الأقصى لحجم كل ملف 10 ميغابايت."); event.target.value = ""; return; }
+      const validationError = validateFile(file);
+      if (validationError) { setError(validationError); event.target.value = ""; return; }
     }
     setUploadingIndex(index);
     try {

@@ -4,9 +4,8 @@ import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
 import { Plus } from "lucide-react";
+import { validateFile } from "@/lib/fileUpload";
 
-const MAX_SIZE = 10 * 1024 * 1024;
-const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
 const ordinalLabel = ["اللقب الأكاديمي الأول (إجباري)", "اللقب الأكاديمي الثاني (إجباري)", "اللقب الأكاديمي الثالث (اختياري)"];
 
 export default function AcademicTitlesInput({ value, onChange }) {
@@ -21,8 +20,8 @@ export default function AcademicTitlesInput({ value, onChange }) {
     const file = event.target.files?.[0];
     if (!file) return;
     setError("");
-    if (!allowedTypes.includes(file.type)) { setError("الصيغ المسموح بها: PDF، JPEG، PNG فقط."); event.target.value = ""; return; }
-    if (file.size > MAX_SIZE) { setError("الحد الأقصى لحجم الملف 10 ميغابايت."); event.target.value = ""; return; }
+    const validationError = validateFile(file);
+    if (validationError) { setError(validationError); event.target.value = ""; return; }
     setUploadingIndex(index);
     try {
       const { file_uri } = await base44.integrations.Core.UploadPrivateFile({ file });
