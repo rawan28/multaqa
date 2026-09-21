@@ -14,7 +14,7 @@ const genderOptions = [
   { value: "other", label: "آخر" }];
 
 const workDays = [["sunday", "الأحد"], ["monday", "الاثنين"], ["tuesday", "الثلاثاء"], ["wednesday", "الأربعاء"], ["thursday", "الخميس"], ["friday", "الجمعة"], ["saturday", "السبت"]];
-const accessibilityOptions = ["مدخل بدون درج", "يوجد إمكانية لكرسي عجلات", "درج", "يوجد مصعد", "موقف سيارات قريب", "دورة مياه ميسة"];
+const accessibilityOptions = ["مدخل بدون درج", "يوجد إمكانية لكرسي عجلات", "درج", "يوجد مصعد", "موقف سيارات قريب"];
 
 const initialValues = {
   full_legal_name: "", teudat_zehut: "", gender: "",
