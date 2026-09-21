@@ -54,7 +54,6 @@ export default function Home() {
         <div>
           <div className="mb-6 flex items-baseline justify-between">
             <h2 className="font-heading text-3xl font-semibold text-foreground">الأخصائيون</h2>
-            <span className="text-sm text-muted-foreground" aria-live="polite">{matches.length} مدرجين</span>
           </div>
           {loading ? <p className="text-muted-foreground">جارٍ تحميل الأخصائيين…</p> : matches.length ? <div className="grid gap-5 sm:grid-cols-2 lg:grid-cols-3">{matches.map((item) => <ProfessionalCard key={item.id} professional={item} />)}</div> : <p className="rounded-lg border border-dashed p-8 text-muted-foreground">لا يوجد أخصائيون يطابقون بحثك حتى الآن.</p>}
         </div>
