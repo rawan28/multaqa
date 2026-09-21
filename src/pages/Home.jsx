@@ -6,6 +6,7 @@ import { useAuth } from "@/lib/AuthContext";
 import ProfessionalCard from "@/components/directory/ProfessionalCard";
 import AdvancedSearch from "@/components/directory/AdvancedSearch";
 import EmergencyNotice from "@/components/EmergencyNotice";
+import WelcomeSection from "@/components/directory/WelcomeSection";
 import SiteFooter from "@/components/SiteFooter";
 import { LogOut } from "lucide-react";
 
@@ -42,6 +43,7 @@ export default function Home() {
       </header>
       <section id="directory" className="bg-background">
         <div className="mx-auto max-w-6xl px-5 py-10">
+          <WelcomeSection />
           <AdvancedSearch query={query} setQuery={setQuery} specialty={specialty} setSpecialty={setSpecialty} location={location} setLocation={setLocation} mode={mode} setMode={setMode} locations={locations} onReset={resetFilters} hasFilters={hasFilters} />
           <EmergencyNotice />
         </div>
