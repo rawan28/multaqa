@@ -7,6 +7,7 @@ import ProfessionalCard from "@/components/directory/ProfessionalCard";
 import AdvancedSearch from "@/components/directory/AdvancedSearch";
 import EmergencyNotice from "@/components/EmergencyNotice";
 import WelcomeSection from "@/components/directory/WelcomeSection";
+import FAQSection from "@/components/directory/FAQSection";
 import SiteFooter from "@/components/SiteFooter";
 import { LogOut } from "lucide-react";
 
@@ -65,6 +66,7 @@ export default function Home() {
           </div>
         </aside>
       </section>
+      <FAQSection />
       <SiteFooter />
     </main>
   );
