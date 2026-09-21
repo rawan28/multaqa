@@ -1,0 +1,96 @@
+{
+  "name": "Advert",
+  "type": "object",
+  "properties": {
+    "title": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": [
+        "work",
+        "course",
+        "event"
+      ]
+    },
+    "organization": {
+      "type": "string"
+    },
+    "location": {
+      "type": "string"
+    },
+    "description": {
+      "type": "string"
+    },
+    "contact_email": {
+      "type": "string",
+      "format": "email"
+    },
+    "link": {
+      "type": "string",
+      "format": "uri"
+    },
+    "image_url": {
+      "type": "string",
+      "format": "uri"
+    },
+    "posted_by_id": {
+      "type": "string"
+    },
+    "is_active": {
+      "type": "boolean",
+      "default": true
+    }
+  },
+  "required": [
+    "title",
+    "category",
+    "organization",
+    "description",
+    "contact_email",
+    "posted_by_id",
+    "is_active"
+  ],
+  "rls": {
+    "read": {
+      "$or": [
+        {
+          "data.is_active": true
+        },
+        {
+          "data.posted_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "create": {},
+    "update": {
+      "$or": [
+        {
+          "data.posted_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    },
+    "delete": {
+      "$or": [
+        {
+          "data.posted_by_id": "{{user.id}}"
+        },
+        {
+          "user_condition": {
+            "role": "admin"
+          }
+        }
+      ]
+    }
+  }
+}

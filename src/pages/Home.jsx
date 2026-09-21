@@ -37,6 +37,7 @@ export default function Home() {
             {user?.role === "admin" && <Link to="/admin/verifications" className="text-sm text-primary underline">طلبات التحقق</Link>}
             {isAuthenticated && <Link to="/dashboard" className="text-sm font-medium text-primary underline">لوحة الممارس</Link>}
             {isAuthenticated && <button onClick={handleLogout} className="flex items-center gap-1 text-sm font-medium text-muted-foreground hover:text-destructive"><LogOut className="h-4 w-4" />تسجيل الخروج</button>}
+            <Link to="/adverts" className="text-sm font-medium text-primary underline">لوحة الإعلانات</Link>
             {!isAuthenticated && <Link to="/login" className="text-sm font-medium text-primary underline">دخول الممارسين</Link>}
           </div>
         </div>
