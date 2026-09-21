@@ -72,7 +72,18 @@ export default function ProfessionalProfile() {
             <p className="flex items-center gap-2"><BriefcaseBusiness className="h-4 w-4" aria-hidden="true" />{professional.years_experience} سنوات من الخبرة</p>
             <p className="flex items-center gap-2"><Monitor className="h-4 w-4" aria-hidden="true" />{modeLabels[professional.appointment_mode]}</p>
             {professional.session_fee != null && <p><span className="font-medium text-foreground">رسوم الجلسة: </span>{professional.session_fee} شيكل</p>}
-            {professional.work_days?.length > 0 && <p><span className="font-medium text-foreground">أيام العمل: </span>{professional.work_days.map((day) => workDayLabels[day]).join("، ")}</p>}
+            {professional.work_hours?.length > 0 ? (
+              <div>
+                <p className="font-medium text-foreground">ساعات العمل:</p>
+                <ul className="mt-1 space-y-0.5">
+                  {professional.work_hours.map((h, i) => (
+                    <li key={i}>{workDayLabels[h.day]}: {h.start} - {h.end}</li>
+                  ))}
+                </ul>
+              </div>
+            ) : professional.work_days?.length > 0 ? (
+              <p><span className="font-medium text-foreground">أيام العمل: </span>{professional.work_days.map((day) => workDayLabels[day]).join("، ")}</p>
+            ) : null}
             {professional.min_age != null && professional.max_age != null && <p><span className="font-medium text-foreground">الفئة العمرية: </span>من {professional.min_age} إلى {professional.max_age} سنة</p>}
             {professional.accessibility && <p><span className="font-medium text-foreground">إتاحة المكان: </span>{professional.accessibility}</p>}
             {professional.directions && <p><span className="font-medium text-foreground">الوصول: </span>{professional.directions}</p>}

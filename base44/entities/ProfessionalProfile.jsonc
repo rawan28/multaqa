@@ -139,6 +139,37 @@
         ]
       }
     },
+    "work_hours": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "properties": {
+          "day": {
+            "type": "string",
+            "enum": [
+              "sunday",
+              "monday",
+              "tuesday",
+              "wednesday",
+              "thursday",
+              "friday",
+              "saturday"
+            ]
+          },
+          "start": {
+            "type": "string"
+          },
+          "end": {
+            "type": "string"
+          }
+        },
+        "required": [
+          "day",
+          "start",
+          "end"
+        ]
+      }
+    },
     "min_age": {
       "type": "number",
       "minimum": 0,

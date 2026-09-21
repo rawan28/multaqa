@@ -22,7 +22,7 @@ const initialValues = {
   license_confirmed: false, license_number: "",
   is_association_member: false, professional_associations: "",
   location: "", years_experience: "", appointment_mode: "both",
-  work_days: [], min_age: "", max_age: "", session_fee: "", accepting_new_patients: true,
+  work_days: [], work_hours: [], min_age: "", max_age: "", session_fee: "", accepting_new_patients: true,
   profile_image_url: "", website: "", accessibility: "", accessibility_notes: "", directions: "",
   phone: "", email: "", bio: "",
 };
@@ -36,7 +36,12 @@ export default function ProfessionalForm({ onSubmit }) {
   const [message, setMessage] = useState("");
 
   const update = (event) => setValues({ ...values, [event.target.name]: event.target.value });
-  const toggleDay = (day) => setValues({ ...values, work_days: values.work_days.includes(day) ? values.work_days.filter((item) => item !== day) : [...values.work_days, day] });
+  const toggleWorkDay = (day) => {
+    const exists = values.work_hours.find((h) => h.day === day);
+    const next = exists ? values.work_hours.filter((h) => h.day !== day) : [...values.work_hours, { day, start: "", end: "" }];
+    setValues({ ...values, work_hours: next });
+  };
+  const updateWorkHour = (day, field, value) => setValues({ ...values, work_hours: values.work_hours.map((h) => (h.day === day ? { ...h, [field]: value } : h)) });
   const toggleAccessibility = (option) => {
     const current = values.accessibility ? values.accessibility.split("، ").filter(Boolean) : [];
     const next = current.includes(option) ? current.filter((o) => o !== option) : [...current, option];
@@ -63,10 +68,12 @@ export default function ProfessionalForm({ onSubmit }) {
     if (values.is_association_member && !values.professional_associations.trim()) { setError("يرجى ذكر اسم الجمعية/الجمعيات التي أنت عضو فيها."); return; }
     setSaving(true);
     try {
-      const { accessibility_notes, ...rest } = values;
+      const { accessibility_notes, work_days, work_hours, ...rest } = values;
       const result = await onSubmit({
         profile: {
           ...rest,
+          work_days: work_hours.map((h) => h.day),
+          work_hours: work_hours.filter((h) => h.start || h.end),
           accessibility: [values.accessibility, accessibility_notes].filter(Boolean).join("، "),
           years_experience: Number(values.years_experience),
           min_age: values.min_age === "" ? null : Number(values.min_age),
@@ -138,7 +145,32 @@ export default function ProfessionalForm({ onSubmit }) {
       <div><Label htmlFor="session_fee">المبلغ المطلوب للجلسة (بالشيكل)</Label><Input id="session_fee" name="session_fee" type="number" min="0" value={values.session_fee} onChange={update} /></div>
       <div><Label htmlFor="location">الموقع</Label><Input id="location" name="location" value={values.location} onChange={update} required /></div>
       {values.appointment_mode !== "online" && <div className="grid gap-5"><fieldset><legend className="text-sm font-medium">إتاحة المكان</legend><div className="mt-2 grid gap-2 sm:grid-cols-2">{accessibilityOptions.map((o) => <label key={o} className="flex items-center gap-2 text-sm"><input type="checkbox" checked={values.accessibility.split("، ").includes(o)} onChange={() => toggleAccessibility(o)} />{o}</label>)}</div><Label htmlFor="accessibility_notes" className="mt-3 block">ملاحظات إضافية عن الإتاحة</Label><Textarea id="accessibility_notes" name="accessibility_notes" value={values.accessibility_notes} onChange={update} className="mt-2 min-h-20" /></fieldset><div><Label htmlFor="directions">كيفية الوصول إلى المكان</Label><Textarea id="directions" name="directions" value={values.directions} onChange={update} className="mt-2 min-h-24" required /></div></div>}
-      <fieldset><legend className="text-sm font-medium">أيام العمل <span className="text-muted-foreground">(اختيارية)</span></legend><div className="mt-2 flex flex-wrap gap-3">{workDays.map(([value, label]) => <label key={value} className="flex items-center gap-1 text-sm"><input type="checkbox" checked={values.work_days.includes(value)} onChange={() => toggleDay(value)} />{label}</label>)}</div></fieldset>
+      <fieldset>
+        <legend className="text-sm font-medium">أيام وساعات العمل <span className="text-muted-foreground">(اختيارية)</span></legend>
+        <p className="mt-1 text-xs text-muted-foreground">حدد أيام العمل وساعات الاستقبال المتاحة لكل يوم.</p>
+        <div className="mt-3 space-y-2">
+          {workDays.map(([value, label]) => {
+            const entry = values.work_hours.find((h) => h.day === value);
+            const checked = !!entry;
+            return (
+              <div key={value} className="flex flex-wrap items-center gap-3 rounded-md border bg-background p-3">
+                <label className="flex items-center gap-2 text-sm font-medium">
+                  <input type="checkbox" checked={checked} onChange={() => toggleWorkDay(value)} />
+                  {label}
+                </label>
+                {checked && (
+                  <div className="flex items-center gap-2 text-sm">
+                    <span className="text-muted-foreground">من</span>
+                    <input type="time" value={entry.start} onChange={(e) => updateWorkHour(value, "start", e.target.value)} className="h-9 rounded-md border bg-background px-2" aria-label={`${label} - من`} />
+                    <span className="text-muted-foreground">إلى</span>
+                    <input type="time" value={entry.end} onChange={(e) => updateWorkHour(value, "end", e.target.value)} className="h-9 rounded-md border bg-background px-2" aria-label={`${label} - إلى`} />
+                  </div>
+                )}
+              </div>
+            );
+          })}
+        </div>
+      </fieldset>
       <fieldset className="grid gap-3 rounded-lg border bg-card p-5"><legend className="px-1 text-sm font-semibold text-foreground">الأجيال التي أعمل معها</legend><p className="text-xs text-muted-foreground">حدد الفئة العمرية التي تستقبلها في عيادتك.</p><div className="grid gap-5 sm:grid-cols-2"><div><Label htmlFor="min_age">من العمر (بالسنوات)</Label><Input id="min_age" name="min_age" type="number" min="0" max="120" value={values.min_age} onChange={update} /></div><div><Label htmlFor="max_age">إلى العمر (بالسنوات)</Label><Input id="max_age" name="max_age" type="number" min="0" max="120" value={values.max_age} onChange={update} /></div></div></fieldset>
       <label className="flex items-center gap-2 text-sm font-medium"><input type="checkbox" checked={values.accepting_new_patients} onChange={(event) => setValues({ ...values, accepting_new_patients: event.target.checked })} />بإمكاني استقبال متوجهين جدد</label>
       {error && <p className="text-sm text-destructive" role="alert">{error}</p>}

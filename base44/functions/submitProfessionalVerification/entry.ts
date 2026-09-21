@@ -53,6 +53,7 @@ export default async function(req: Request): Promise<Response> {
       years_experience: profile.years_experience,
       appointment_mode: profile.appointment_mode,
       work_days: Array.isArray(profile.work_days) ? profile.work_days : [],
+      work_hours: Array.isArray(profile.work_hours) ? profile.work_hours : [],
       accepting_new_patients: profile.accepting_new_patients !== false,
       offers_mentorship: profile.offers_mentorship === true,
       profile_image_url: profile.profile_image_url || "",
