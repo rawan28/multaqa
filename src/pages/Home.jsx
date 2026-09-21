@@ -42,8 +42,8 @@ export default function Home() {
       </header>
       <section id="directory" className="bg-background">
         <div className="mx-auto max-w-6xl px-5 py-10">
-          <EmergencyNotice />
           <AdvancedSearch query={query} setQuery={setQuery} specialty={specialty} setSpecialty={setSpecialty} location={location} setLocation={setLocation} mode={mode} setMode={setMode} locations={locations} onReset={resetFilters} hasFilters={hasFilters} />
+          <EmergencyNotice />
         </div>
       </section>
       <section className="mx-auto grid max-w-6xl gap-10 px-5 pb-16 lg:grid-cols-[1fr_280px]">
