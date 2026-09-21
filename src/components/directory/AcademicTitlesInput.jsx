@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Button } from "@/components/ui/button";
 import { base44 } from "@/api/base44Client";
@@ -7,6 +6,7 @@ import { Plus } from "lucide-react";
 import { validateFile } from "@/lib/fileUpload";
 
 const ordinalLabel = ["اللقب الأكاديمي الأول (إجباري)", "اللقب الأكاديمي الثاني (إجباري)", "اللقب الأكاديمي الثالث (اختياري)"];
+const degreeOptions = ["بكالوريوس", "ماجستير", "لقب دكتوراة"];
 
 export default function AcademicTitlesInput({ value, onChange }) {
   const [uploadingIndex, setUploadingIndex] = useState(null);
@@ -43,7 +43,10 @@ export default function AcademicTitlesInput({ value, onChange }) {
             <p className="text-sm font-medium text-foreground">{ordinalLabel[index] || `اللقب الأكاديمي ${index + 1}`}</p>
             {value.length > 1 && <button type="button" onClick={() => removeRow(index)} className="text-sm text-destructive underline">إزالة</button>}
           </div>
-          <Input className="mt-2" placeholder="مثال: بكالوريوس في علم النفس" value={title.title} onChange={(e) => update(index, "title", e.target.value)} required={index <= 1} />
+          <select value={title.title} onChange={(e) => update(index, "title", e.target.value)} required={index <= 1} className="mt-2 h-10 w-full rounded-md border bg-background px-3 text-sm">
+            <option value="" disabled>يرجى الاختيار</option>
+            {degreeOptions.map((d) => <option key={d} value={d}>{d}</option>)}
+          </select>
           <div className="mt-3">
             <Label className="text-xs text-muted-foreground">ملف إثبات (شهادة) — إجباري</Label>
             <input type="file" accept="application/pdf,image/jpeg,image/png" onChange={(e) => upload(index, e)} disabled={uploadingIndex === index} className="mt-1 block text-sm" />
