@@ -4,7 +4,7 @@ import BrandLogo from "@/components/BrandLogo";
 import { base44 } from "@/api/base44Client";
 import { useAuth } from "@/lib/AuthContext";
 import ProfessionalCard from "@/components/directory/ProfessionalCard";
-import AdvancedSearch from "@/components/directory/AdvancedSearch";
+import AdvancedSearch, { specialtyKeywords } from "@/components/directory/AdvancedSearch";
 import EmergencyNotice from "@/components/EmergencyNotice";
 import WelcomeSection from "@/components/directory/WelcomeSection";
 import FAQSection from "@/components/directory/FAQSection";
@@ -22,7 +22,13 @@ export default function Home() {
   const loadProfiles = async () => { setLoading(true); setProfessionals(await base44.entities.ProfessionalProfile.list("-created_date")); setLoading(false); };
   useEffect(() => { loadProfiles(); }, []);
   const locations = useMemo(() => Array.from(new Set(professionals.filter((p) => p.is_active && p.location).map((p) => p.location))).sort(), [professionals]);
-  const matches = useMemo(() => professionals.filter((item) => item.verification_status === "verified" && (!query || item.full_name.toLowerCase().includes(query.toLowerCase())) && (!specialty || item.specialties?.some((s) => (s.name || "").toLowerCase().includes(specialty.toLowerCase())) || (item.profession_title || "").toLowerCase().includes(specialty.toLowerCase())) && (!location || item.location === location) && (!mode || item.appointment_mode === mode || item.appointment_mode === "both")), [professionals, query, specialty, location, mode]);
+  const textOf = (item) => [item.full_name, item.profession_title, item.bio, ...(item.specialties || []).map((s) => s.name)].join(" ").toLowerCase();
+  const matchesSpecialty = (item) => {
+    const text = textOf(item);
+    const hits = (key) => specialtyKeywords[key].some((k) => text.includes(k));
+    return specialty === "other" ? !Object.keys(specialtyKeywords).some(hits) : hits(specialty);
+  };
+  const matches = useMemo(() => professionals.filter((item) => item.verification_status === "verified" && (!query.trim() || textOf(item).includes(query.trim().toLowerCase())) && (!specialty || matchesSpecialty(item)) && (!location || item.location === location) && (!mode || item.appointment_mode === mode || item.appointment_mode === "both")), [professionals, query, specialty, location, mode]);
   const hasFilters = query || specialty || location || mode;
   const resetFilters = () => { setQuery(""); setSpecialty(""); setLocation(""); setMode(""); };
   const handleLogout = async () => { await base44.auth.logout(); };

@@ -11,6 +11,15 @@ const specialtyOptions = [
   { value: "other", label: "مجال آخر" },
 ];
 
+export const specialtyKeywords = {
+  psychotherapy: ["علاج", "معالج", "نفسي"],
+  clinical_psychology: ["سريري"],
+  nlp: ["لغوية", "nlp"],
+  family_therapy: ["عائلي", "أسري"],
+  couples_therapy: ["زوجي"],
+  child_therapy: ["أطفال", "مراهق", "يافع", "تربوي"],
+};
+
 const modeOptions = [
   { value: "", label: "كل أنواع الجلسات" },
   { value: "online", label: "عبر الإنترنت" },
